@@ -1,0 +1,25 @@
+#
+# Author    : Gao Yuyang
+# ID        : 21297919
+
+## Synopsis
+
+Practical 2 of Fundamentals of Programming COMP1005/1005
+
+## Cotents
+
+README - readme file for Practical 1
+string1.py - show three ways of printing string reverse
+string2.py - print them in forward and upper case and duplicate and print every second character excluding first and last
+bucket1.py - use a python list for items in a bucket list
+bucket2.py - bucket list builder
+darts.py - Pi calculator
+cointoss.py - simulate tossing a coin multiple times
+
+## Dependencies
+
+none
+
+## Version information
+
+07/11/2022 - initial version of Practical 1 Programs

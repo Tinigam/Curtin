@@ -1,0 +1,21 @@
+#
+# Author    : Gao Yuyang
+# ID        : 21297919
+
+## Synopsis
+
+Practical 3 Test
+
+## Cotents
+
+README - readme file for Practical 2 Test
+BankAccount.py - BankAccount class of accounts
+testAccount.py - test accounts and menu
+
+## Dependencies
+
+none
+
+## Version information
+
+17/12/2022 - initial version of Practical 2 Test Programs

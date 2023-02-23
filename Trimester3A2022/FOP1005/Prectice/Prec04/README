@@ -1,0 +1,30 @@
+#
+# Author    : Gao Yuyang
+# ID        : 21297919
+
+## Synopsis
+
+Practical 4 of Fundamentals of Programming COMP1005/1005
+
+## Cotents
+
+README - readme file for Practical 4
+zeros.py - creating and resizing an array
+prettyface.py - generate a face
+competition_v1.py - generate competitions for 7 judges.
+competition_v2.py - generate competitions for 7 judges. add Error message
+competition_v3.py - generate competitions for 7 judges. add Error message with a functuon
+conversions.py – module with functions to convert between units
+testConversions.py - tests the functions in conversions.py
+converter.py - convert between temperature format.
+converter2.py - convert by the temerature type.
+Tems.txt - input of temperature
+Temsout.txt - output of temperature
+
+## Dependencies
+
+none
+
+## Version information
+
+19/11/2022 - initial version of Practical 4 Programs

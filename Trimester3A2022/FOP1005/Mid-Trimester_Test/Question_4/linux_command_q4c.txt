@@ -1,0 +1,16 @@
+# i) To change the name of the existing file.
+mv oldname.txt newname.txt
+# ii) To show the current working directory.
+pwd
+# iii) To go one level up in the directory structure.
+cd ..
+# iv) To change directory.
+cd directory-name
+# v) To accept parameters at the command line rather than hard coding them within the program. i.e., giving input and output from files.
+
+#In program:
+#!/bin/bash
+mv $1 $2
+
+#In terminal:
+./move.sh oldname.txt newname.txt

@@ -1,0 +1,27 @@
+#
+# Author    : Gao Yuyang
+# ID        : 21297919
+
+## Synopsis
+
+Practical 5 of Fundamentals of Programming COMP1005/1005
+
+## Cotents
+
+README - readme file for Practical 5
+heat.py - heat diffusion simulation
+heatsource.csv - sheet of heat temp source
+heatsource.py - program to read heatsource.csv
+listComp.py - list comprehensions
+marchout.csv - marchweather2.py output
+marchweather.csv - original data of weather
+marchweather2.py - graph of mins maxs threes and nines of march
+marchweatherfull.csv - data from http://www.bom.gov.au/climate/dwo/202203/html/IDCJDW6111.202203.shtml
+
+## Dependencies
+
+none
+
+## Version information
+
+28/11/2022 - initial version of Practical 5 Programs

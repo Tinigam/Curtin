@@ -1,0 +1,25 @@
+Mega Island Theatre
+Cinema 1
+1/1/2021 12:00 Cretaceous Field
+1/1/2021 15:00 Raiders of the Last Orc
+1/1/2021 19:00 Tin Man Legacy
+2/1/2021 12:00 Cretaceous Field
+2/1/2021 15:00 Raiders of the Last Orc
+2/1/2021 19:00 Tin Man Legacy
+3/1/2021 12:00 Cretaceous Field
+3/1/2021 15:00 Raiders of the Last Orc
+3/1/2021 19:00 Tin Man Legacy
+Cinema 2
+1/1/2021 12:00 Cretaceous Field
+1/1/2021 15:00 Detective Rabbit 3D
+1/1/2021 19:00 Tin Man Legacy
+2/1/2021 12:00 Stare Wares Episode XII 
+2/1/2021 15:00 Detective Rabbit 3D
+2/1/2021 19:00 Tin Man Legacy
+Cinema 3
+1/1/2021 12:00 Cretaceous Field
+1/1/2021 15:00 Detective Rabbit 3D
+1/1/2021 19:00 Tin Man Legacy
+2/1/2021 12:00 Cretaceous Field
+2/1/2021 15:00 Detective Rabbit 3D
+2/1/2021 19:00 Tin Man Legacy

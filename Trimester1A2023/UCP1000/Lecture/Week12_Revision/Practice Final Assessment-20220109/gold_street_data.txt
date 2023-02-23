@@ -1,0 +1,18 @@
+Gold Street Theatre
+Cinema 1
+1/1/2021 12:20 Sarnac the HorgeHeg 2
+1/1/2021 15:45 Raiders of the Last Orc
+1/1/2021 19:30 Tin Man Legacy
+2/1/2021 12:20 Sarnac the HorgeHeg 2
+2/1/2021 15:45 Raiders of the Last Orc
+2/1/2021 19:30 Tin Man Legacy
+3/1/2021 12:20 Sarnac the HorgeHeg 2
+3/1/2021 15:45 Raiders of the Last Orc
+3/1/2021 19:30 Tin Man Legacy
+Cinema 2
+1/1/2021 12:20 Stare Wares Episode XII 
+1/1/2021 15:45 Detective Rabbit 3D
+1/1/2021 19:30 Tin Man Legacy
+2/1/2021 12:20 Sarnac the HorgeHeg 2
+2/1/2021 15:45 Detective Rabbit 3D
+2/1/2021 19:30 Tin Man Legacy

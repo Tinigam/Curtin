@@ -1,0 +1,20 @@
+## Synopsis
+
+Practical 1 of Fundamentals of Programming COMP1005/1005
+
+## Cotents
+
+README - readme file for Practical 1
+hello.py - Print out greetings in various languages
+numbers1.py - Read in number and echo the number and its type to screen
+numbers2.py - Read in ten number and give sum of numbers
+numbers3.py - Read in a list of numbers (negative to exit) and give the sum of the numbers
+growth.py - simulation of unconstained growth
+
+## Dependencies
+
+none
+
+## Version information
+
+31/10/2022 - initial version of Practical 1 Programs

@@ -1,0 +1,26 @@
+/nTEMPERATURE CONVERTOR/n
+1. Fahrenheit
+2. Celsius
+3. Kelvin
+Enter the original value type: Enter a value of temperatureFahrenheit:  5.0 Celsius:  -15.0 Kelvin:  258.15000000000003
+Continue? (Y/N)1. Fahrenheit
+2. Celsius
+3. Kelvin
+Enter the original value type: Enter a value of temperatureCelsius:  10.0 Fahrenheit:  50.0 Kelvin:  283.15
+Continue? (Y/N)1. Fahrenheit
+2. Celsius
+3. Kelvin
+Enter the original value type: Enter a value of temperatureKelvin:  50.0 Celsius:  -223.14999999999998 Fahrenheit:  -369.67
+Continue? (Y/N)1. Fahrenheit
+2. Celsius
+3. Kelvin
+Enter the original value type: Enter a value of temperatureFahrenheit:  100.0 Celsius:  37.77777777777778 Kelvin:  310.9277777777778
+Continue? (Y/N)1. Fahrenheit
+2. Celsius
+3. Kelvin
+Enter the original value type: Enter a value of temperatureCelsius:  200.0 Fahrenheit:  392.0 Kelvin:  473.15
+Continue? (Y/N)1. Fahrenheit
+2. Celsius
+3. Kelvin
+Enter the original value type: Enter a value of temperatureKelvin:  250.0 Celsius:  -23.149999999999977 Fahrenheit:  -9.670000000000016
+Continue? (Y/N)

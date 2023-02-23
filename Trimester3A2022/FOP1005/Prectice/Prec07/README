@@ -1,0 +1,25 @@
+#
+# Author    : Gao Yuyang
+# ID        : 21297919
+
+## Synopsis
+
+Practical 7 of Fundamentals of Programming COMP1005/1005
+
+## Cotents
+
+README - readme file for Practical 7
+animal.py - format of animal
+people.csv - data of people
+people.py - format of people
+shelters.py - function of peoples in animal.py
+teatPeople.py - test of people.py
+readPeopleRE.py - read data from people.csv
+
+## Dependencies
+
+none
+
+## Version information
+
+12/12/2022 - initial version of Practical 7 Programs

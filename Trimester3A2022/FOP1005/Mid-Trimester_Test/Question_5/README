@@ -1,0 +1,48 @@
+#
+# Author    : Gao Yuyang
+# ID        : 21297919
+
+## Synopsis
+
+Mid-Trimester Test
+
+## Cotents
+
+In folder Question_1:
+    string1.py - Program of Question 1 a
+    three_control_statements.py - Program of Question 1 b
+    type_of_variable.py - Program of Question 1 c
+    linux_command_q1d.txt - Program of Question 1 d
+
+In folder Question_2:
+    resizeme.py - Program of Question 2 a
+    random_array.py - Program of Question 2 b
+    multilineplot.py - Program of Question 2 c
+    plotting.py - Program of Question 2 d
+    Display.png - Output of plotting.py
+
+In folder Question_3:
+    Strfun.py - Program of Question 3 a
+    Grade.py - Program of Question 3 b
+    read&readlines.py - Program of Question 3 c
+    numlist.py - Program of Question 3 d
+
+In folder Question_4:
+    zeros.py - Program of Question 4 a
+    prettyface.py - Program of Question 4 b
+    linux_command_q4c.txt - Program of Question 4 c
+
+In folder Question_5:
+    aggregation&composition.py - Program of Question 5 a
+    animals_class - Program of Question 5 b
+    three_tests_done.py - Program of Question 5 c
+    Pending.csv - data input of three_tests_done.py
+    README - readme file for Mid-Trimester Test & Program of Question 5 d
+    
+## Dependencies
+
+none
+
+## Version information
+
+31/12/2022 - initial version of Mid-Trimester Test Programs

@@ -1,0 +1,27 @@
+
+PARAMETERS
+
+Dilantin half-life:	 22
+Interval between doses: 	 12
+Effective concentration:	 10.0
+Toxic concentration: 	 20.0
+Blood plasma volume: 	 3000
+Dosage: 	 300000
+Absorption fraction: 	 0.12
+Initial amt drug in system: 	 0
+Elimination constant: 	 0.03150669002545206
+Simulation time (hrs): 	 200
+Time step size: 	 1
+Number of timesteps: 	 200
+
+RESULTS
+
+Minimum value: 	 0.0
+Maximum value: 	 37.56500203280208
+Average value: 	 27.60947046276658
+200
+1
+Effective at : 	 1
+Minimum post-effective value: 	 8.438089397444939
+Maximum post-effective value: 	 37.56500203280208
+Average post-effective value: 	 27.74821152036842

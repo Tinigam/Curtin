@@ -1,0 +1,24 @@
+#
+# Author    : Gao Yuyang
+# ID        : 21297919
+
+## Synopsis
+
+Assignment 1
+
+## Cotents
+
+README - readme file for Assignment 1
+Emission.csv - Emission data for vehicles
+Emission.py - class of Emission object
+A1.py - main program for analysis
+User_Docmentation.docx - User Document with guideline and discussions
+Report.docx - final report of data analysis
+
+## Dependencies
+
+none
+
+## Version information
+
+17/12/2022 - initial version of Assignment 1 Programs

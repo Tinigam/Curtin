@@ -1,0 +1,26 @@
+#
+# Author    : Gao Yuyang
+# ID        : 21297919
+
+## Synopsis
+
+Practical 8 of Fundamentals of Programming COMP1005/1005
+
+## Cotents
+
+README - readme file for Practical 8
+dosage2022-12-25_23:53:11 - data output of dosage_sweep.sh
+plot_2022_12 - output of weather_workflow in 12 2022
+dosage_sweep.sh - allow to generate dosage data auytomaticly
+dosagebase.py - dosage program
+plotcmd.txt - plot defination from lecture 8
+reapeatdosageP.py - original dosage program from lecture 8
+weather_workflow.sh - get weather data and generate plot
+
+## Dependencies
+
+none
+
+## Version information
+
+25/12/2022 - initial version of Practical 8 Programs

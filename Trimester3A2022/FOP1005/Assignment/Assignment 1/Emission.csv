@@ -1,0 +1,311 @@
+Year,Make,Model,Engine (kW),Transmission Type ,Consumption City (kWh/100 km),Consumption Long Route (kWh/100 km),Consumption Average (kWh/100 km),Emission CO2 (g/km)
+2012,Mitsubishi,i-MiEV,49,Auto,16.9,21.4,19.15,7
+2012,Nissan,LEAF,80,Auto,19.3,23,21.15,7
+2013,Ford,Focus Electric,107,Auto,19,21.1,20.05,4
+2013,Mitsubishi,i-MiEV,49,Auto,16.9,21.4,19.15,7
+2013,Nissan,LEAF,80,Auto,19.3,23,21.15,7
+2013,smart,fortwo electric drive cabriolet,35,Auto,17.2,22.5,19.85,8
+2013,smart,fortwo electric drive coupe,35,Auto,17.2,22.5,19.85,8
+2013,Tesla,Model S (40 kWh),225,Auto,22.4,21.9,22.15,6
+2013,Tesla,Model S (60 kWh),225,Auto,22.2,21.7,21.95,10
+2013,Tesla,Model S (85 kWh),270,Auto,23.8,23.2,23.5,12
+2013,Tesla,Model S Performance,310,Auto,23.9,23.2,23.55,12
+2014,Chevrolet,Spark EV,104,Auto,16,19.6,17.8,7
+2014,Ford,Focus Electric,107,Auto,19,21.1,20.05,4
+2014,Mitsubishi,i-MiEV,49,Auto,16.9,21.4,19.15,7
+2014,Nissan,LEAF,80,Auto,16.5,20.8,18.65,5
+2014,smart,fortwo electric drive cabriolet,35,Auto,17.2,22.5,19.85,8
+2014,smart,fortwo electric drive coupe,35,Auto,17.2,22.5,19.85,8
+2014,Tesla,Model S (60 kWh),225,Auto,22.2,21.7,21.95,10
+2014,Tesla,Model S (85 kWh),270,Auto,23.8,23.2,23.5,12
+2014,Tesla,Model S Performance,310,Auto,23.9,23.2,23.55,12
+2015,BMW,i3,125,Auto,15.2,18.8,17,4
+2015,Chevrolet,Spark EV,104,Auto,16,19.6,17.8,7
+2015,Ford,Focus Electric,107,Auto,19,21.1,20.05,4
+2015,Kia,Soul EV,81,Auto,17.5,22.7,20.1,4
+2015,Mitsubishi,i-MiEV,49,Auto,16.9,21.4,19.15,7
+2015,Nissan,LEAF,80,Auto,16.5,20.8,18.65,5
+2015,smart,fortwo electric drive cabriolet,35,Auto,17.2,22.5,19.85,8
+2015,smart,fortwo electric drive coupe,35,Auto,17.2,22.5,19.85,8
+2015,Tesla,Model S (60 kWh),285,Auto,22.2,21.7,21.95,10
+2015,Tesla,Model S (70 kWh),285,Auto,23.8,23.2,23.5,12
+2015,Tesla,Model S (85/90 kWh),285,Auto,23.8,23.2,23.5,12
+2015,Tesla,Model S 70D,280,Auto,20.8,20.6,20.7,12
+2015,Tesla,Model S 85D/90D,280,Auto,22,19.8,20.9,12
+2015,Tesla,Model S P85D/P90D,515,Auto,23.4,21.5,22.45,12
+2016,BMW,i3,125,Auto,15.2,18.8,17,4
+2016,Chevrolet,Spark EV,104,Auto,16,19.6,17.8,7
+2016,Ford,Focus Electric,107,Auto,19,21.1,20.05,4
+2016,Kia,Soul EV,81,Auto,17.5,22.7,20.1,4
+2016,Mitsubishi,i-MiEV,49,Auto,16.9,21.4,19.15,7
+2016,Nissan,LEAF (24 kWh),80,Auto,16.5,20.8,18.65,5
+2016,Nissan,LEAF (30 kWh),80,Auto,17,20.7,18.85,6
+2016,smart,fortwo electric drive cabriolet,35,Auto,17.2,22.5,19.85,8
+2016,smart,fortwo electric drive coupe,35,Auto,17.2,22.5,19.85,8
+2016,Tesla,Model S (60 kWh pre- 6/16),285,Auto,22.2,21.7,21.95,10
+2016,Tesla,Model S (60 kWh),285,Auto,21.5,20.7,21.1,10
+2016,Tesla,Model S (70 kWh),285,Auto,23.8,23.2,23.5,12
+2016,Tesla,Model S (75 kWh),285,Auto,21.5,21,21.25,12
+2016,Tesla,Model S (85/90 kWh),285,Auto,23.8,23.2,23.5,12
+2016,Tesla,Model S 60D,386,Auto,20.6,19.6,20.1,10
+2016,Tesla,Model S 70D,386,Auto,20.8,20.6,20.7,12
+2016,Tesla,Model S 75D,386,Auto,20.6,19.9,20.25,12
+2016,Tesla,Model S 85D/90D,386,Auto,22,19.8,20.9,12
+2016,Tesla,Model S 90D (Refresh),386,Auto,20.8,19.7,20.25,12
+2016,Tesla,Model S P85D/P90D,568,Auto,23.4,21.5,22.45,12
+2016,Tesla,Model S P90D (Refresh),568,Auto,22.9,21,21.95,12
+2016,Tesla,Model S P100D,568,Auto,22.6,20,21.3,12
+2016,Tesla ,Model X 60D,386,Auto,23,22.2,22.6,10
+2016,Tesla,Model X 75D,386,Auto,23,21.9,22.45,12
+2016,Tesla,Model X 90D,386,Auto,23.2,22.2,22.7,12
+2016,Tesla,Model X P90D,568,Auto,23.6,23.3,23.45,12
+2016,Tesla,Model X P100D,568,Auto,25.7,22.9,24.3,12
+2017,BMW,i3 (60 Ah),125,Auto,15.2,18.8,17,4
+2017,BMW,i3 (94 Ah),125,Auto,16.2,19.7,17.95,5
+2017,Chevrolet,Bolt EV,150,Auto,16.4,19,17.7,9.3
+2017,Ford,Focus Electric,107,Auto,17.7,21.8,19.75,5.5
+2017,Hyundai,IONIQ Electric,88,Auto,13.7,17.4,15.55,4
+2017,Kia,Soul EV,81,Auto,17.4,23,20.2,4
+2017,Mitsubishi,i-MiEV,49,Auto,16.9,20.5,18.7,7
+2017,Nissan,LEAF,80,Auto,17,20.7,18.85,6
+2017,Tesla,Model S (60 kWh),285,Auto,21.5,20.7,21.1,10
+2017,Tesla,Model S (75 kWh),285,Auto,21.5,21,21.25,12
+2017,Tesla,Model S 60D,386,Auto,20.6,19.6,20.1,10
+2017,Tesla,Model S 75D,386,Auto,20.6,19.9,20.25,12
+2017,Tesla,Model S 90D,386,Auto,20.6,19.7,20.15,12
+2017,Tesla,Model S 100D,386,Auto,20.7,20.5,20.6,12
+2017,Tesla,Model S P90D,568,Auto,22.8,20.9,21.85,12
+2017,Tesla ,Model S P100D,568,Auto,22.6,20,21.3,12
+2017,Tesla ,Model X 60D,386,Auto,23,22.2,22.6,10
+2017,Tesla ,Model X 75D,386,Auto,23,21.9,22.45,12
+2017,Tesla ,Model X 90D,386,Auto,23.2,22.2,22.7,12
+2017,Tesla ,Model X 100D,386,Auto,24.3,23.7,24,12
+2017,Tesla ,Model X P90D,568,Auto,23.6,23.3,23.45,12
+2017,Tesla ,Model X P100D,568,Auto,25.7,22.9,24.3,12
+2017,Volkswagen,e-Golf,100,Auto,16.8,18.6,17.7,5.3
+2018,BMW,i3,125,Auto,16.2,19.7,17.95,5
+2018,BMW,i3s,135,Auto,17.1,21.1,19.1,5
+2018,Chevrolet,Bolt EV,150,Auto,16.4,19,17.7,9.3
+2018,Ford,Focus Electric,107,Auto,17.7,21.8,19.75,5.5
+2018,Hyundai,IONIQ Electric,88,Auto,13.7,17.4,15.55,4
+2018,Kia,Soul EV,81,Auto,16.8,22.4,19.6,5
+2018,Nissan,LEAF,110,Auto,16.9,21.1,19,8
+2018,smart,fortwo electric drive cabriolet,60,Auto,18.7,23.1,20.9,3
+2018,smart,fortwo electric drive coupe,60,Auto,16.9,22.3,19.6,3
+2018,Tesla,Model 3 Mid Range,202,Auto,16.4,17.9,17.15,10
+2018,Tesla,Model 3 Long Range,202,Auto,15.3,17,16.15,10
+2018,Tesla,Model 3 Long Range AWD,335,Auto,17.4,18.7,18.05,10
+2018,Tesla,Model 3 Long Range AWD Performance,358,Auto,17.4,18.7,18.05,10
+2018,Tesla,Model S (75 kWh),285,Auto,21.5,21,21.25,12
+2018,Tesla,Model S 75D,386,Auto,20.6,19.9,20.25,12
+2018,Tesla,Model S 100D,386,Auto,20.7,20.5,20.6,12
+2018,Tesla,Model S P100D,568,Auto,22.6,20,21.3,12
+2018,Tesla,Model X 75D,386,Auto,23,21.9,22.45,12
+2018,Tesla,Model X 100D,386,Auto,24.3,23.7,24,12
+2018,Tesla,Model X P100D,568,Auto,25.4,23.6,24.5,12
+2018,Volkswagen,e-Golf,100,Auto,16.8,18.6,17.7,5.3
+2019,Audi,e-tron 55 quattro,300,Auto,28,28.5,28.25,10
+2019,BMW,i3 (120 Ah),125,Auto,16.8,20.6,18.7,7
+2019,BMW,i3s (120 Ah),135,Auto,16.8,20.6,18.7,7
+2019,Chevrolet,Bolt EV,150,Auto,16.4,19,17.7,9.3
+2019,Hyundai,IONIQ Electric,88,Auto,13.7,17.4,15.55,4
+2019,Hyundai,Kona Electric,150,Auto,16.2,19.3,17.75,9
+2019,Jaguar,I-PACE,294,Auto,26.2,29.1,27.65,13
+2019,Kia,Niro EV,150,Auto,17,20.6,18.8,9.5
+2019,Kia,Soul EV,81,Auto,16.8,22.4,19.6,5
+2019,Nissan,LEAF (40 kWh),110,Auto,16.8,21,18.9,8
+2019,Nissan,LEAF S PLUS,160,Auto,17.8,21.5,19.65,11
+2019,Nissan,LEAF SV/SL PLUS,160,Auto,18.3,22.1,20.2,11
+2019,smart EQ,fortwo cabriolet,60,Auto,18.7,23.1,20.9,3
+2019,smart EQ,fortwo coupe,60,Auto,16.9,22.3,19.6,3
+2019,Tesla,Model 3 Standard Range,211,Auto,14.8,16.5,15.65,3.7
+2019,Tesla,Model 3 Standard Range Plus,211,Auto,14.9,16.8,15.85,8.5
+2019,Tesla,Model 3 Mid Range,211,Auto,16.4,17.9,17.15,10
+2019,Tesla,Model 3 Long Range,211,Auto,15.3,17,16.15,10
+2019,Tesla,Model 3 Long Range AWD,335,Auto,17.4,18.7,18.05,10
+2019,Tesla,Model 3 Long Range AWD Performance,358,Auto,17.4,18.7,18.05,10
+2019,Tesla,Model S 75D,386,Auto,20.6,19.9,20.25,12
+2019,Tesla,Model S 100D,386,Auto,20.7,20.5,20.6,12
+2019,Tesla,Model S P100D,568,Auto,22.6,20,21.3,12
+2019,Tesla,Model S Standard Range,398,Auto,18.5,20,19.25,9
+2019,Tesla,Model S Long Range,398,Auto,18.2,19.5,18.85,12
+2019,Tesla,"Model S Performance (19"" Wheels)",580,Auto,20.1,20.2,20.15,12
+2019,Tesla,"Model S Performance (21"" Wheels)",580,Auto,21.3,21.9,21.6,12
+2019,Tesla,Model X 75D,386,Auto,23,21.9,22.45,12
+2019,Tesla,Model X 100D,386,Auto,24.3,23.7,24,12
+2019,Tesla,Model X P100D,568,Auto,25.4,23.6,24.5,12
+2019,Tesla,Model X Standard Range,398,Auto,20,21.5,20.75,9
+2019,Tesla,Model X Long Range,398,Auto,21.2,22.5,21.85,12
+2019,Tesla,"Model X Performance (20"" Wheels)",580,Auto,23.2,23.5,23.35,12
+2019,Tesla,"Model X Performance (22"" Wheels)",580,Auto,26.2,27.1,26.65,12
+2019,Volkswagen,e-Golf,100,Auto,16.8,18.6,17.7,5.3
+2020,Audi,e-tron Sportback 55 quattro,300,Auto,27.6,26.9,27.25,10
+2020,BMW,i3 (120 Ah),125,Auto,16.8,20.6,18.7,7
+2020,BMW,i3s (120 Ah),135,Auto,16.8,20.6,18.7,7
+2020,Chevrolet,Bolt EV,150,Auto,16.5,19.5,18,10
+2020,Hyundai,IONIQ Electric,100,Auto,14.5,17.4,15.95,5.8
+2020,Hyundai,Kona Electric,150,Auto,16.2,19.3,17.75,9
+2020,Jaguar,I-PACE,294,Auto,26.2,29.1,27.65,13
+2020,Kia,Niro EV,150,Auto,17,20.6,18.8,9.5
+2020,Kia,Soul EV (120 Ah),150,Auto,15.5,20.5,18,6
+2020,Kia,Soul EV (180 Ah),150,Auto,16.8,21.1,18.95,9.5
+2020,MINI,Cooper SE 3 Door,135,Auto,18.2,20.9,19.55,4
+2020,Nissan,LEAF (40 kWh),110,Auto,17,21.2,19.1,8
+2020,Nissan,LEAF S PLUS,160,Auto,17.8,21.5,19.65,11
+2020,Nissan,LEAF SV/SL PLUS,160,Auto,18.3,22.1,20.2,11
+2020,Porsche,Taycan 4S (Performance Battery Plus),360,Manual,30.9,29.6,30.25,10.5
+2020,Porsche,Taycan Turbo,460,Manual,30.9,29.5,30.2,10
+2020,Porsche,Taycan Turbo S,460,Manual,31.3,30.7,31,10.5
+2020,Tesla,Model 3 Standard Range,211,Auto,14.8,16.5,15.65,3.7
+2020,Tesla,Model 3 Standard Range Plus,211,Auto,14.1,15.9,15,8.5
+2020,Tesla,Model 3 Mid Range,211,Auto,16.4,17.9,17.15,10
+2020,Tesla,Model 3 Long Range,211,Auto,15.3,17,16.15,10
+2020,Tesla,Model 3 Long Range AWD,335,Auto,16.9,18,17.45,10
+2020,Tesla,"Model 3 Long Range AWD Performance (18"" Wheels)",358,Auto,16.9,18,17.45,10
+2020,Tesla,"Model 3 Long Range AWD Performance (19"" Wheels)",358,Auto,17.6,18.7,18.15,10
+2020,Tesla,"Model 3 Long Range AWD Performance (20"" Wheels)",358,Auto,17.8,19.6,18.7,10
+2020,Tesla,Model S Standard Range,398,Auto,18.5,20,19.25,9
+2020,Tesla,Model S Long Range,398,Auto,18.2,19.5,18.85,12
+2020,Tesla,Model S Long Range Plus (pre-15/6/20),398,Auto,17.2,18.9,18.05,12
+2020,Tesla,Model S Long Range Plus,398,Auto,17.3,18.8,18.05,12
+2020,Tesla,"Model S Performance (19"" Wheels)",580,Auto,20.1,20.2,20.15,12
+2020,Tesla,"Model S Performance (21"" Wheels)",580,Auto,21.3,21.9,21.6,12
+2020,Tesla,Model X Standard Range,398,Auto,20,21.5,20.75,9
+2020,Tesla,Model X Long Range,398,Auto,21.2,22.5,21.85,12
+2020,Tesla,Model X Long Range Plus,398,Auto,19.3,20.8,20.05,12
+2020,Tesla,"Model X Performance (20"" Wheels)",580,Auto,23.2,23.5,23.35,12
+2020,Tesla,"Model X Performance (22"" Wheels)",580,Auto,26.2,27.1,26.65,12
+2020,Tesla,Model Y Long Range AWD,358,Auto,16.5,18.3,17.4,10
+2020,Tesla,Model Y Performance,358,Auto,16.3,18.7,17.5,10
+2020,Tesla,"Model Y Performance (21"" Wheels)",358,Auto,18.1,19.8,18.95,10
+2020,Volkswagen,e-Golf,100,Auto,17.4,19.9,18.65,5.3
+2021,Audi,e-tron 55 quattro,300,Auto,26.9,27,26.95,10
+2021,Audi,e-tron Sportback 55 quattro,300,Auto,27.6,27,27.3,10
+2021,BMW,i3 (120 Ah),125,Auto,16.8,20.6,18.7,7
+2021,BMW,i3s (120 Ah),135,Auto,16.8,20.6,18.7,7
+2021,Chevrolet,Bolt EV,150,Auto,16.5,19.5,18,10
+2021,Ford,Mustang Mach-E Standard Range,198,Auto,19.9,22.4,21.15,8.8
+2021,Ford,Mustang Mach-E Standard Range AWD,198,Auto,21,24.5,22.75,8.5
+2021,Ford,"Mustang Mach-E Extended Range (19"" Wheels)",216,Auto,20.2,23.2,21.7,10.9
+2021,Ford,Mustang Mach-E Extended Range AWD,258,Auto,21.8,25,23.4,10.7
+2021,Ford,Mustang Mach-E California Route 1,216,Auto,19.4,22.3,20.85,11.4
+2021,Ford,Mustang Mach-E GT Performance Edition,358,Auto,23.8,27.8,25.8,10.1
+2021,Hyundai,IONIQ Electric,100,Auto,14.5,17.4,15.95,5.8
+2021,Hyundai,Kona Electric,150,Auto,16.2,19.3,17.75,9
+2021,Kia,Niro EV,150,Auto,17,20.6,18.8,9.5
+2021,Kia,Soul EV (120 Ah),150,Auto,15.6,20.4,18,6
+2021,Kia,Soul EV (180 Ah),150,Auto,16.9,21,18.95,9.5
+2021,MINI,Cooper SE 3 Door,135,Auto,18.2,20.9,19.55,4
+2021,Nissan,LEAF (40 kWh),110,Auto,17,21.2,19.1,8
+2021,Nissan,LEAF S PLUS,160,Auto,17.8,21.5,19.65,11
+2021,Nissan,LEAF SV/SL PLUS,160,Auto,18.3,22.1,20.2,11
+2021,Polestar,2,300,Auto,21.9,23.9,22.9,8
+2021,Porsche,Taycan 4S (Performance Battery),320,Manual,26.6,26.1,26.35,9.5
+2021,Porsche,Taycan 4S (Performance Battery Plus),360,Manual,28,25.8,26.9,10.5
+2021,Porsche,Taycan Turbo,460,Manual,29.2,28,28.6,10.5
+2021,Porsche,Taycan Turbo S,460,Manual,30.2,29.5,29.85,10.5
+2021,Porsche,Taycan 4 Cross Turismo,280,Manual,27.5,27.2,27.35,10.5
+2021,Porsche,Taycan 4S Cross Turismo,360,Manual,28,28,28,10.5
+2021,Porsche,Taycan Turbo Cross Turismo,460,Manual,29.1,29.2,29.15,10.5
+2021,Porsche,Taycan Turbo S Cross Turismo,460,Manual,28.5,28.7,28.6,10.5
+2021,Tesla,Model 3 Standard Range,191,Auto,14.5,16,15.25,3.7
+2021,Tesla,Model 3 Standard Range Plus,191,Auto,13.9,15.7,14.8,8.5
+2021,Tesla,Model 3 Long Range AWD,293,Auto,14.9,16.5,15.7,10
+2021,Tesla,Model 3 Performance,321,Auto,17.8,19.6,18.7,10
+2021,Tesla,Model S Long Range,494,Auto,16.9,18.3,17.6,15
+2021,Tesla,Model S Long Range Plus,398,Auto,18.1,19.3,18.7,12
+2021,Tesla,"Model S Performance (19"" Wheels)",580,Auto,18.4,19.7,19.05,12
+2021,Tesla,"Model S Performance (21"" Wheels)",580,Auto,21.3,22.6,21.95,12
+2021,Tesla,"Model S Plaid (19"" Wheels)",750,Auto,17.6,18.7,18.15,15
+2021,Tesla,"Model S Plaid (21"" Wheels)",750,Auto,20.4,21.2,20.8,15
+2021,Tesla,Model X Long Range,494,Auto,19.7,21.7,20.7,14
+2021,Tesla,Model X Long Range Plus,398,Auto,19.3,20.7,20,12
+2021,Tesla,"Model X Performance (20"" Wheels)",580,Auto,21,22.1,21.55,12
+2021,Tesla,"Model X Performance (22"" Wheels)",580,Auto,23.7,25.3,24.5,12
+2021,Tesla,Model Y Standard Range,211,Auto,15,17.6,16.3,8
+2021,Tesla,Model Y Long Range AWD,270,Auto,15.9,17.9,16.9,10
+2021,Tesla,Model Y Performance,312,Auto,18.2,19.8,19,10
+2021,Volkswagen,ID.4 Pro,150,Auto,20.2,23.4,21.8,7.5
+2021,Volkswagen,ID.4 AWD Pro,220,Auto,21.5,23.9,22.7,7.5
+2021,Volvo,XC40 Recharge,300,Auto,24.5,29.2,26.85,8
+2022,Audi,e-tron 55 quattro,300,Auto,26.9,27,26.95,10
+2022,Audi,e-tron Sportback 55 quattro,300,Auto,27.6,27,27.3,10
+2022,Audi,"e-tron S Sportback quattro (20"" Wheels)",370,Auto,28.6,27,27.8,10
+2022,Audi,"e-tron S Sportback quattro (21"" or 22"" Wheels)",370,Auto,32.9,31.7,32.3,10
+2022,Audi,e-tron GT,390,Manual,25.9,25.3,25.6,10.5
+2022,Audi,RS e-tron GT,475,Manual,26.4,25.5,25.95,10.5
+2022,Audi,Q4 50 e-tron quattro,220,Auto,21,23.6,22.3,9
+2022,Audi,Q4 50 e-tron Sportback quattro,220,Auto,21,23.6,22.3,9
+2022,BMW,"i4 eDrive40 (18"" Wheels)",250,Auto,19.1,19.3,19.2,10
+2022,BMW,"i4 eDrive40 (19"" Wheels)",250,Auto,20.9,21.3,21.1,10
+2022,BMW,"i4 M50 xDrive (19"" Wheels)",400,Auto,22.3,21.4,21.85,10
+2022,BMW,"i4 M50 xDrive (20"" Wheels)",400,Auto,26.4,26.1,26.25,10
+2022,BMW,"iX xDrive50 (20"" Wheels)",400,Auto,24.3,24.2,24.25,12
+2022,BMW,"iX xDrive50 (21"" Wheels)",400,Auto,25.4,25.1,25.25,12
+2022,BMW,"iX xDrive50 (22"" Wheels)",400,Auto,24.3,24.5,24.4,12
+2022,Chevrolet,Bolt EUV,150,Auto,16.8,20.1,18.45,7.5
+2022,Chevrolet,Bolt EV,150,Auto,16,19.2,17.6,7.5
+2022,Ford,F-150 Lightning Standard Range,318,Auto,27.5,34.5,31,11.8
+2022,Ford,F-150 Lightning Extended Range,420,Auto,26.9,33.3,30.1,10.1
+2022,Ford,F-150 Lightning Platinum,420,Auto,28.7,35,31.85,9.3
+2022,Ford,Mustang Mach-E Standard Range,198,Auto,19,21.9,20.45,8.1
+2022,Ford,Mustang Mach-E Standard Range AWD,198,Auto,21.1,24.3,22.7,8
+2022,Ford,Mustang Mach-E Extended Range,216,Auto,20.2,23.2,21.7,10.9
+2022,Ford,Mustang Mach-E Extended Range AWD,258,Auto,21.6,24.9,23.25,10.7
+2022,Ford,Mustang Mach-E California Route 1,216,Auto,19.4,22.3,20.85,11.4
+2022,Ford,Mustang Mach-E California Route 1 AWD,258,Auto,20,22.9,21.45,10.1
+2022,Ford,Mustang Mach-E GT Performance Edition,358,Auto,23.8,27.8,25.8,10.1
+2022,Hyundai,IONIQ 5 Standard Range,125,Auto,16.2,22.4,19.3,6.3
+2022,Hyundai,IONIQ 5 Long Range,168,Auto,15.5,21.7,18.6,8.5
+2022,Hyundai,IONIQ 5 Long Range AWD,239,Auto,19,24,21.5,8.5
+2022,Hyundai,Kona Electric,150,Auto,16.2,19.3,17.75,9.5
+2022,Jaguar,I-PACE,294,Auto,27,29.4,28.2,13
+2022,Kia,EV6 Standard Range,125,Auto,15.5,21.1,18.3,6.3
+2022,Kia,EV6 Long Range,168,Auto,15.5,20.5,18,8.7
+2022,Kia,EV6 Long Range AWD,239,Auto,18,22.4,20.2,8.4
+2022,Kia,Niro EV,150,Auto,17,20.6,18.8,9.5
+2022,Kia,Soul EV (120 Ah),150,Auto,15.6,20.4,18,6
+2022,Kia,Soul EV (180 Ah),150,Auto,16.9,21,18.95,9.5
+2022,Lucid,"Air Dream P AWD (19"" Wheels)",829,Auto,18,18.3,18.15,13
+2022,Lucid,"Air Dream P AWD (21"" Wheels)",829,Auto,19,18.8,18.9,13
+2022,Lucid,"Air Dream R AWD (19"" Wheels)",696,Auto,16.7,16.7,16.7,13
+2022,Lucid,"Air Dream R AWD (21"" Wheels)",696,Auto,18.2,18,18.1,13
+2022,Lucid,"Air Grand Touring AWD (19"" Wheels)",611,Auto,16.1,15.8,15.95,13
+2022,Lucid,"Air Grand Touring AWD (21"" Wheels)",611,Auto,17.4,17.1,17.25,13
+2022,Mazda,MX-30,107,Auto,21.4,24.6,23,5.3
+2022,Mercedes-Benz,EQS 580 4MATIC Sedan,385,Auto,23,21.1,22.05,11.25
+2022,MINI,Cooper SE 3 Door,135,Auto,17.6,20.9,19.25,4
+2022,Nissan,LEAF (40 kWh),110,Auto,17,21.2,19.1,8
+2022,Nissan,LEAF S PLUS,160,Auto,17.8,21.5,19.65,11
+2022,Nissan,LEAF SV/SL PLUS,160,Auto,18.3,22.1,20.2,11
+2022,Polestar,2 Single Motor,170,Auto,18.5,20.9,19.7,8
+2022,Polestar,2 Dual Motor,300,Auto,22.4,24.9,23.65,8
+2022,Porsche,Taycan 4 Cross Turismo,280,Manual,27.5,27.2,27.35,10.5
+2022,Porsche,Taycan 4S (Performance Battery),320,Manual,26.6,26.1,26.35,9.5
+2022,Porsche,Taycan 4S (Performance Battery Plus),360,Manual,28,25.8,26.9,10.5
+2022,Porsche,Taycan 4S Cross Turismo,360,Manual,28,28,28,10.5
+2022,Porsche,Taycan GTS,380,Manual,25.1,25.5,25.3,10.5
+2022,Porsche,Taycan GTS Sport Turismo,380,Manual,26.1,26.2,26.15,10.5
+2022,Porsche,Taycan Turbo,460,Manual,29.2,28,28.6,10.5
+2022,Porsche,Taycan Turbo Cross Turismo,460,Manual,29.1,29.2,29.15,10.5
+2022,Porsche,Taycan Turbo S,460,Manual,30.2,29.5,29.85,10.5
+2022,Porsche,Taycan Turbo S Cross Turismo,460,Manual,28.5,28.7,28.6,10.5
+2022,Rivian,R1S,650,Auto,28.7,32.1,30.4,13
+2022,Rivian,R1T,650,Auto,28.2,31.9,30.05,13
+2022,Tesla,Model 3 Standard Range,191,Auto,17.8,19.5,18.65,3.7
+2022,Tesla,Model 3 RWD,191,Auto,15.2,16.6,15.9,8.5
+2022,Tesla,Model 3 Long Range AWD,293,Auto,15.6,16.6,16.1,10
+2022,Tesla,Model 3 Performance,321,Auto,17.8,19.6,18.7,10
+2022,Tesla,Model S,494,Auto,16.9,18.3,17.6,15
+2022,Tesla,"Model S Plaid (19"" Wheels)",750,Auto,17.6,18.7,18.15,15
+2022,Tesla,"Model S Plaid (21"" Wheels)",750,Auto,20.4,21.2,20.8,15
+2022,Tesla,Model X,494,Auto,19.7,21.7,20.7,14
+2022,Tesla,"Model X Plaid (20"" Wheels)",750,Auto,20.4,22.5,21.45,14
+2022,Tesla,"Model X Plaid (22"" Wheels)",750,Auto,22.3,23.8,23.05,14
+2022,Tesla,Model Y AWD,291,Auto,16.3,18.1,17.2,9
+2022,Tesla,Model Y Long Range AWD,291,Auto,16.5,17.9,17.2,10
+2022,Tesla,Model Y Performance,312,Auto,18.2,19.8,19,10
+2022,Volkswagen,ID.4 Pro,150,Auto,18.7,22,20.35,7.5
+2022,Volkswagen,ID.4 AWD Pro,220,Auto,21,23.2,22.1,7.5
+2022,Volvo,C40 Recharge Twin,300,Auto,22.2,26.1,24.15,8
+2022,Volvo,XC40 Recharge Twin,300,Auto,22.8,26.6,24.7,8
