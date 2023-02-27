@@ -1,0 +1,248 @@
+---
+title: 'RNI1006 Regression and Nonparametric Inference'
+author: 'Computer Lab 4'
+output:
+  word_document: default
+  html_notebook:
+    theme: flatly
+  html_document:
+    highlight: haddock
+    theme: flatly
+  pdf_document: default
+---
+
+
+## Learning Check
+
+When you complete this session, you will be able to:
+
+1. randomly generate bootstrap resamples from a small sample using 'boot' R
+package;
+2. use R output to describe the results of a bootstrap analysis
+of the mean;
+3. use the bootstrap distribution to find a bootstrap percentile confidence
+interval;
+4. compare confidence intervals for the mean using $t$-distribution and the bootstrap distribution.
+5. perform a permutation test for two-sample problem and a matched pairs study using the R package 'CarletonStats';
+6. compare a permutation test for two-sample and a matched pairs studies and $t$-test and the Wilcoxon test;
+7. (OPTIONAL) perform a detailed permutation test using an R package `gtools`.
+
+
+Before you start, load the stored datasets provided for exercises below by running the following chunk (assuming the file  "Workshop3.Rdata" is saved in the same directory as the .Rmd  worksheet).
+
+
+```{r}
+print(load("Workshop3.RData"))
+```
+
+```{r}
+#install.packages("boot")
+#install.packages("CarletonStats")
+#install.packages("gtools")
+```
+
+## Question 1 Adapted from Moore et al (2017) Ex 16.3 Bootstrapping: Gosset’s data on double stout sales. 
+
+William Sealy Gosset worked at the Guinness Brewery in Dublin
+and made substantial contributions to the practice of
+statistics. In Moore et (2017) Exercise 1.65 (page 48), we examined
+Gosset’s data on the change in the double stout market
+before and after World War I (1914–1918). For various
+regions in England and Scotland, he calculated the ratio
+of sales in 1925, after the war, as a percent of sales in
+1913, before the war. Here are the data for a sample of
+six of the regions in the original data:
+
+Bristol 94         Glasgow  66          English P   46 
+Liverpool 140      English Agents 78    Scottish    24
+
+```{r}
+gosset.data <- c(94, 66, 46, 140, 78, 24)
+```
+
+a. Do you think that these data appear to be from a
+Normal distribution? Provide your arguments using some tools in R.
+
+b. Provide the sample mean, standard deviation and 95% confidence interval for the mean of the data using `t.test` in R.
+
+c. Perform $n=10, 1000, 3000$ bootstrapping resamples from this set of data. Find the range of the mean for each resampling and
+compute the mean for each resample. Comment.
+
+d. Would you expect the bootstrap standard error to be larger, smaller, or approximately equal to the standard deviation of the original sample of six regions? Explain your answer.
+
+e. Find the bootstrap standard error.
+
+f. Summarise your findings to compare the mean and standard error from the original sample and different sizes of bootstrap resampling.
+
+
+## Question 2 Calls data: t-test, Bootstrapping Confidence Interval
+
+The vector `Calls` contains the length in seconds of a random selection of calls to a call centre during one day of operation. As you will see when you plot the data below, it is highly skewed. We're going to compare confidence intervals for the mean using (a) the $t$-distribution, and (b) using the bootstrap distribution.
+
+  a. Plot a histogram of the data and comment. 
+  
+  b. Use the function `t.test` to calculate a 95% confidence interval for the mean call time.
+
+  c. The next bit of code will produce a bootstrap distribution consisting of the sample mean from 3000 resamples *with replacement* from the original data. 
+  
+  d. Plot the bootstrap distribution and comment on its shape.
+  
+```{r echo=F, eval=F}
+#hist(Calls.boot)
+```
+
+  e. Using the function `quantile`, calculate a (naive) 95% bootstrap confidence interval, and compare it with the result obtained from the original sample mean +/- 1.96 standard errors (as output from a call to t.test)
+
+
+```{r echo=F, eval=F}
+# mean and 95% bootstrap confidence interval
+mean(Calls.boot)
+quantile(Calls.boot,c(0.025,0.975))
+```
+
+```{r echo=F, eval=F}
+# mean and 95% CI from original sample
+mean(Calls)
+t.test(Calls)$conf.int
+
+```
+
+  f. Add the 95% confidence intervals to the bootstrap histogram, and comment.
+  
+## Question 3: Serum data - two sample (Rank Sum, Permutation)
+
+Ex. 16.76, Moore *et al.* (2014): Serum retinol (vitamin) in the blood of children has beneficial effects, such as protecting against fractures. Medical researchers working with children in PNG studied whether recent infections reduced the level of serum retinol. They classified children as recently infected or not on the basis of other blood tests and then measured serum retinol level ($\mu$mol/l).
+
+  a. Summarize and plot the data in `Retinol`. Comment on the shape of the distributions. Is a parametric test appropriate?
+
+
+```{r echo=F, eval=F}
+head(Retinol)
+```
+```{r echo=F, eval=F}
+table(Retinol$infection)
+```
+
+```{r echo=F, eval=F}
+boxplot(retinol~infection,data=Retinol,main="Infection status")
+
+```
+
+
+  b. Carry out an appropriate rank-based test to determine whether infections reduce serum retinol level. What are the null and alternative hypotheses? What do you conclude?
+  
+  c. How might you produce a single permutation of the data under a null hypothesis of no difference between the serum levels of the two groups?   
+
+  d. Carry out a permutation test to determine whether infections reduce serum retinol level using *PermTest* command in *CarletonStats* R package.
+  
+```{r}
+# library(CarletonStats)
+# set.seed(123)
+# permTest(Retinol$retinol, Retinol$infection,  alternative = "greater")
+```
+  
+  e. (OPTIONAL) The code below will produce a vector (`PermDist`) containing the permutation distribution. It simply calculates the mean difference between 'Not Infected' and 'Infected' groups for all possible permutations. After you have installed the package `gtools`, run this chunk, but if you want to 'knit' this file, make sure you change `eval=FALSE` to `eval=TRUE`.
+  
+```{r eval=TRUE, echo=T}
+# First, we need to install the package 'gtools' and then load it into our current session
+# Install the package by going to Tools -> Install Packages, (if not already in list), and then 
+
+library(gtools)
+
+# Calculate the difference between the mean of serum retinol levels in uninfected and infected children.
+
+observed.meandiff <- mean(Retinol$retinol[Retinol$infection=="no"]) - mean(Retinol$retinol[Retinol$infection=="yes"])
+
+# Generate a matrix containing all possible permutations of the indices for the 'non-infected' children (ie 9 out of the 20)
+Perms <- combinations(20, 9)
+
+# For all these possible combinations, calculate the difference between the mean; the result will be very long vector containing the permutation distribution
+## the following code takes each row of the matrix Perms and uses this as the first input argument to the defined function
+PermDist <- apply(Perms, 1, function(ind,vals){
+  mean(vals[(1:20)[ind]])-mean(vals[(1:20)[-ind]])
+},Retinol$retinol)
+```
+
+How large is the matrix `Perms` that has just been created? Have a look at the first few rows of `Perms` to make sure you understand what it represents. 
+
+How many values are there in the permutation distribution? Plot a histogram of the permutation distribution, and mark on the observed mean difference.
+
+  
+```{r echo=F, eval=F}
+# This should be easy!
+par(mfrow=c(1,1))
+hist(PermDist)
+lines(rep(observed.meandiff,2),c(0,10000),lwd=2,col="red")
+```
+
+
+  f. (OPTIONAL, continuing part e) The exact $p$-value is the number of times the values in the permutation distribution are equal to or exceed the observed mean difference, divided by the number of permutations. Calculate it. Compare it with the $p$-value you calculate using the rank-based test.
+  
+```{r echo=F, eval=F}
+# 
+mean(PermDist>observed.meandiff)
+```
+
+  g. (OPTIONAL) If, for example, the researchers were interested in testing a hypothesis about the *ratio* of serum retinol levels, how would the permutation test be modified? (You don't need to do this, just work out how it might be done.)
+
+
+## Question 4 Paired data- Permutation, t-test and Wilcoxon test
+
+To carry out the hypothesis test in two sample, we permuted the observations between the two groups. In carrying out hypothesis testing for paired data, however, we cannot mix results for different observations. Instead, we carry out the permutation within each paired observations. Thus, if there are $n$ paired observations, there will be $2^n$ permutations.
+
+In this question, we will use the `Shoes` data, where we want to test whether the wear of material B is greater than that of material A.
+
+```{r echo=F, eval=F}
+head(Shoes)
+```
+
+  a. Calculate the difference between the wear of material B and material A, and store it into a vector. What is the mean difference?
+  
+```{r echo=F, eval=F}
+mean.weardiff<-mean(Shoes$matB-Shoes$matA)
+mean.weardiff
+```
+
+
+  b. Plot the differences in a useful way, and comment.
+
+
+  c. What would one permutation of this data be? How many permutations of the sample labels are possible for these data? 
+
+Generate using the following
+  
+```{r echo=F, eval=F}
+PermDiffs<-permutations(2,10,c(-1,1),repeats=TRUE)
+dim(PermDiffs)
+head(PermDiffs)
+```
+  
+
+  d. Carry out a permutation test to test whether the wear of material B is greater than that of material A using *PermTestPaired* command in *CarletonStats* R package. What is the $p$-value, and what do you conclude?
+  
+```{r}
+# library(CarletonStats)
+# set.seed(123)
+# permTestPaired(Shoes$matB, Shoes$matA,  alternative = "greater")
+```  
+
+
+e. (OPTIONAL) Using the permutation matrix and some simple matrix algebra you can calculate the permutation distribution. Store the resulting vector and plot it as a histogram. Where would the observed test statistic sit? What is the $p$-value, and what do you conclude?
+  
+```{r echo=F, eval=F}
+PermDiffsDist<-(PermDiffs%*%abs(Shoes$matB-Shoes$matA))/10
+hist(PermDiffsDist)
+lines(rep(mean.weardiff,2),c(0,100),lwd=2,col="red")
+
+```
+  
+
+  f. How does this compare to that obtained from inbuilt test functions?
+
+
+```{r echo=F, eval=F}
+t.test(Shoes$matB,Shoes$matA,paired=T,alternative="greater")
+```
+```{r echo=F, eval=F}
+wilcox.test(Shoes$matB,Shoes$matA,paired=T,alternative="greater")
+```

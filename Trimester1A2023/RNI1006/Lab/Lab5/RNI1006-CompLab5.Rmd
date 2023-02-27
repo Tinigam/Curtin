@@ -1,0 +1,106 @@
+---
+title: 'RNI1006 Regression and Nonparametric Inference'
+author: 'Computer Lab 5'
+output:
+  word_document: default
+  html_notebook:
+    theme: flatly
+  html_document:
+    highlight: haddock
+    theme: flatly
+  pdf_document: default
+---
+
+## Learning Check
+
+When you complete this session, you will be able to:
+
+1. understand the difference between response and explanatory variables;
+2. understand a few different types of bivariate relationships we will be considering in this unit;
+3. be able to create scatterplots to explore such bivariate relationships;
+4. be able to use correlation analysis to investigate a linear relationship between two (untransformed or transformed) continuous variables;
+5. be able to calculate the sample correlation coefficients using Pearson's, Spearman's and Kendall's;
+6. be able to perform hypothesis testing related to the population correlation coefficients of Pearson's, Spearman's and Kendall's.
+
+
+Before you start, load the stored datasets from Bb *bigclass.csv and emissions.csv* provided for exercises below as well as other datasets by running the following chunk (assuming the file  "Workshop5.Rdata" is saved in the same directory as the .Rmd  worksheet).
+
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(prompt=FALSE, comment=NA, tidy=TRUE, error=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{r echo=F}
+print(load("Workshop5.RData"))
+```
+
+
+## Question 1: Simple Relationships Between Variables: bigclass.xlsx data set
+
+Open the file *bigclass.csv*.
+
+Statistical data can be recorded and presented in many different ways. However, for the purpose of statistical calculations it is necessary to structure the data correctly. Almost all statistical data arise when one or more *variables*
+are recorded on each of $n$ separate *cases or subjects*.
+      
+Each row is a record of data for a particular child. It contains all the characteristics we are interested in but only for a single child. Each column contains a different variable. It contains data for all 40 children but only for a single characteristic. This is the case $\times$ variable structure commonly used for organising data.
+
+We will now use R to help us explore the relationships between variables.
+
+(a). Specify the variables and cases in this dataset. Furthermore, specify the data type of each variable in the dataset.
+
+(b). A better way to explore the relationship between the continuous variable *Height* and the nominal variable *Sex* is to use side-by-side boxplots. Compare the relationship between  *Height* and *Sex* using  side-by-side boxplots.
+
+(c). Scatterplots with definite patterns in the data, such as straight lines, repeating patterns, exponential shapes or even no pattern, give clues as to the form of that relationship.  In this unit, we will focus mainly on linear relationships. To explore the relationship between height and weight of students in the  data set, create the scatterplot.
+Which variables are more sensible to be explanatory and response in this case?
+
+(c). Describe briefly what the scatterplot shows. The following points may help - is the relationship between weight and height positive or negative, linear or non-linear, strong or weak?
+
+
+## Question 2   
+
+A geyser is a hot spring in which water boils intermittently, sending a tall column of water and steam into the air. One of the best known geysers in the US is *Old Faithful in Yellowstone National Park, Wyoming.* It was so named when it was first discovered in 1870 because it was (and is) said to erupt regularly. But what does regularly mean?
+
+The data file for this workshop contains the _R_ data frame `faithful`, which consists of sequential measurements of the duration of an eruption (eruptions, in minutes) and the time to the next eruption (waiting, also in minutes). They were obtained during October 1980 by volunteers. These data were collected so that park rangers could inform tourists when an eruption was likely to occur.
+
+As part of your work with the US National Park Service, you have been tasked with constructing a predictive model for waiting time as a linear function of eruption duration so that park rangers can inform tourists when an eruption is likely to occur.
+
+(a) Identify the explanatory and response variables in this case.
+
+(b) Produce a scatterplot of the waiting time and length of eruptions. (Think about which variable to plot on the y axis and which one to plot on the x axis.)
+
+(c) Comment on any patterns you see in the data and on the relationship between waiting time and eruption duration in such a way that a tourist to Old Faithful might understand. 
+
+(d) Calculate Pearson’s, Spearman’s and Kendall's correlation coefficients, and comment on the similarity/difference between the three coefficients. 
+
+(e) Perform hypothesis testing for positive correlations using Pearson’s, Spearman’s and Kendall's correlation coefficients.
+
+(f) Summarise the 6 steps hypothesis testing for Pearson's Spearman’s and Kendall's correlations.
+
+## Question 3 Correlation: Motor vehicle emissions
+
+Motor vehicles must comply with certain emission standards before
+they can be sold in Australia. The dataset *emissions.csv*
+contains the results of emissions testing of a sample of 46 vehicles of a particular model.  
+
+Columns *CO, HC, NOx* represent the emissions of carbon monoxide,
+hydrocarbons and oxides of nitrogen respectively, all in g/km.
+*VN* is a number identifying the particular vehicle being
+tested.
+
+(a). Use correlation analysis to investigate the relationships between emissions of carbon monoxide, hydrocarbons and oxides of nitrogen for this model vehicle. 
+
+(b). Describe the relationships between the variables.
+
+(c). What difficulty do you think a vehicle manufacturer may have in achieving low emissions for all 3 variables?
+
+## Question 4   
+
+The datasets in the data.frame `Anscombe` demonstrate both the importance of graphing data before analyzing it and the effect of outliers and other influential observations on statistical properties. (Anscombe, F. J. (1973). "Graphs in Statistical Analysis". American Statistician. 27 (1): 17–21)
+
+(a). First of all have a look at the data by graphing each of the 4 column pairs (x1,y1) , (x2,y2), (x3,y3) and (x4,y4) in the `Anscombe` dataset. How would you describe each relationship? 
+
+(b). Before confirming by calculation, estimate the (Pearson) correlation coefficient for each pair. 
+
+(c). Now calculate the correlation between $x$ and $y$ for each dataset. What surprising features do you notice?
+
+(d). Calculate the rank correlation coefficient for each pair. How do you explain any differences?

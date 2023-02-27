@@ -1,0 +1,157 @@
+---
+title: 'STAT1006 Regression and Nonparametric Inference'
+author: 'Computer Lab 3'
+output:
+  word_document: default
+  html_notebook:
+    theme: flatly
+  html_document:
+    highlight: haddock
+    theme: flatly
+  pdf_document: default
+---
+
+```{r echo=TRUE}
+knitr::opts_chunk$set(prompt=TRUE,comment=NA, warning = FALSE)
+```
+
+
+## Learning Check
+
+When you complete this session, you will be able to:
+
+1. understand about the ANOVA model;
+2. perform 6 steps hypothesis testing using ANOVA;
+3. perform *ANOVA with unequal variances (Welch ANOVA)*;
+4. checking the same variances using *Levene Test* for ANOVA model;
+5. state the null and alternative hypotheses that are used for the analysis of
+data using the Kruskal-Wallis tes;
+6. perform 6 steps hypothesis testing using Kruskal-Wallis test;
+7. use computer output to determine the results of both the F-test ANOVA and the Kruskal-Wallis test.
+
+
+Before you start, load the stored datasets provided for exercises below by running the following chunk (assuming the file  "Workshop3.Rdata" is saved in the same directory as the .Rmd  worksheet).
+
+
+```{r}
+print(load("Workshop3.RData"))
+```
+
+You need some R packages: `summarytools; car; ` for descriptive statistics and Levene Test for equal variances.
+
+The Kruskal-Wallis test is the nonparametric analogue to a one-way ANOVA for comparing several means. The hypotheses we test are very general---the null hypothesis is that the response has the same distribution in all groups and the alternative hypothesis is that the response is systematically different in at least one of the groups compared to the others. The Kruskal-Wallis statistic is essentially the sum-of-squares for groups calculate for ranks, and it is written as
+$$
+KW = \frac{12}{N(N+1)}\sum_{i=1}^K \frac{R_i^2}{n_i} - 3(N + 1)
+$$
+
+In the expression above, $K$ is the number of groups, $R_i$ is the sum of the ranks of the $i$th group, which contains $n_i$ observations, and $N$ is the total number of observations.
+
+## Question 1 Moore et al (2017)
+
+To detect the presence of harmful insects in farm fields, we can put up boards covered with a sticky material and examine the insects trapped on the boards. Which colours attract insects best? Experimenters placed six boards of each of four colours at random locations in a field of oats and measured the number of cereal leaf beetles trapped. 
+
+Here are the data of the number of beetles trapped by board colour.
+
+```{r}
+Blue<- c(16,11,	20,	21,	14,	7)
+Green <- c(37,	32,	20,	29,	37,	32)
+White <- c(21,	12,	14,	17,	13,	20)
+Yellow	<- c(45,	59,	48,	46,	38,	47)
+```
+
+a. View the data. Summarize and explore the data, using boxplot and summary statistics. Comment and interpret the output.
+
+b. State any assumptions you have made and assess whether these are met with this data.  
+
+c. Use a significance level of 10%.
+
+Conduct all 6 steps of an appropriate statistical method to determine whether there are differences in the means of the number of cereal leaf beetles, in terms of colour preference, based on the numbers trapped on the different coloured boards.
+
+## Question 2. The sorption rates
+
+The dataset `Solvents` consists of the sorption (absorption and adsorption) rates of $K = 3$ classes of solvents: alkanes (A), chloroalkanes (C) and esters (E). You are to use the ANOVA and the Kruskal-Wallis test at the 0.05 level of significance to determine if the organic chemical solvents differ significantly in sorption rate. View the data frame by clicking on the spreadsheet icon next to the name of the data frame in the 'Environment' tab. It contains two variables, one for the solvent code (`solvent`, same name as the data frame) and the sorption rate (`sorption.rate`). You can either count the number of observations from each solvent, or better yet, simply invoke the `table` command and calculate the $n_i$:
+
+    a. View the data. Summarize and explore the data, using boxplot and summary statistics. Comment and interpret the output.
+
+
+    b. If ANOVA is appropriate, use the ANOVA test at the 0.05 level of significance to determine if the organic chemical solvents differ significantly in sorption rate. Summarise the results using 6 steps hypothesis testing.
+    
+    c. In this question, we aim to calculate the K-W test statistic using R. Calculate the value of the test statistic by running the following chucks and substituting in the above equation. (Change `eval=FALSE` to `eval=TRUE` where necessary if you want to )
+    
+```{r echo=F, eval=F}
+GroupN <- table(Solvents$solvent); GroupN
+N <- sum(GroupN); N
+```
+The first step is to rank the combined observations from all groups, calculate the sum of the ranks from each group, and then assign the rank sum to the $R_i$. To rank the observations, we use the `rank` function on the sorption rates.
+
+```{r echo=F, eval=F}
+Solvents$rank <- rank(Solvents$sorption.rate) #stored as another column in the dataset
+```
+
+The sums of the ranks in each group can be calculated explicitly.
+
+```{r echo=F, eval=F}
+SumRanksA <- sum(Solvents$rank[Solvents$solvent=="A"]); SumRanksA
+SumRanksC <- sum(Solvents$rank[Solvents$solvent=="C"]); SumRanksC
+SumRanksE <- sum(Solvents$rank[Solvents$solvent=="E"]); SumRanksE
+SumRanks <- c(A=SumRanksA, C=SumRanksC, E=SumRanksE) # note that for convenience of viewing I have named each element of the vector
+SumRanks
+```
+Alternatively, the sum of the ranks can be calculated more succently by using the function `sapply` that applies the defined function to the data in each element of an input list.
+```{r echo=F, eval=F}
+# The inpuit list here is created by `split`
+SumRanks<-sapply(split(Solvents,Solvents$solvent),function(dat)
+  {
+  return(sum(dat$rank))
+  })
+SumRanks
+```
+
+Calculate *manually* the value of $KW$ in the expression above, using the 2 calculated variables `SumRanks` and `GroupN`:
+
+
+    d. Calculate the p-value of the K-W test statistic in part (c) using the appropriate distribution function in _R_ .
+    
+    e. Compare the result using R function (Kruskal.test).
+    
+    f. Summarise the results of hypothesis testing using K-W test (c-e) in 6 steps.
+
+    
+## Question 3 Calculators
+
+The data in `Calculators` (taken from Ex16.21 in Walpole et al) represent the operating times in hours for three types of scientific pocket calculators before a recharge is required: 
+
+a. Summarize and explore the data. Why/why not would you think the operating times for each type of calculator is the same?
+
+b. Use an one-way analysis of variance at the 0.01 level of significance, to test the hypothesis that the operating times for all three calculators are equal. Summarise the results using 6 steps hypothesis testing.
+
+c. Use the Kruskal-Wallis test, at the 0.01 level of significance, to test the hypothesis that the operating times for all three calculators are equal. Summarise the results using 6 steps hypothesis testing.
+
+Note how you can use formula syntax: _operating.time~type,data=Calculators_
+
+
+## Question 4 Moore et al (2017)
+
+A private university is interested in determining the best teaching methods for a basic statistics course. The department currently teaches the course in a traditional face-to-face (f2f) format. However, they are experimenting with online teaching and a hybrid (combined online and face-to-face) format. Thirty students who signed up to take a basic statistics course were randomly assigned to one of the three formats (online, hybrid, f2f). All students took the exact same final exam and the scores on the final (ranging from 0 to 100) were used to assess each method. The data are shown below.
+
+```{r}
+online <- c(98,95,85,50,20.5, 23,16.5, 88, 95.5, 88)
+hybrid <- c(100,92,95,87,87,78,65,55,82,91.5)
+f2f <- c(90,100,50,23,78.5, 65.5,47.5,78,84,85)
+```
+
+Equivalently,
+
+```{r}
+scores <- c(online, hybrid, f2f)
+types <- factor(rep(1:3, c(10,10,10)),
+            labels = c("online",
+                       "hybrid",
+                       "face-to-face"))
+```
+
+a. Is an ANOVA appropriate for these data?
+
+b. What is the appropriate null hypothesis being tested if a nonparametric test were to be used to analyze the data?
+
+c. Perform an appropriate nonparametric test on these data in 6 steps. Do you reject or not reject the null hypothesis? (Note: Use a significance level of .05.)

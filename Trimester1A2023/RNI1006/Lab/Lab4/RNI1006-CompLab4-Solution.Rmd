@@ -1,0 +1,578 @@
+---
+title: 'RNI1006 Regression and Nonparametric Inference'
+author: 'Computer Lab 4: Solution'
+output:
+  word_document: default
+  html_notebook:
+    theme: flatly
+  html_document:
+    highlight: haddock
+    theme: flatly
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+# This chunk just sets up some defaults
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	comment = NA,
+	prompt = FALSE,
+	tidy = TRUE
+)
+```
+
+## Learning Check
+
+When you complete this session, you will be able to:
+
+1. randomly generate bootstrap resamples from a small sample using 'boot' R package;
+2. use R output to describe the results of a bootstrap analysis
+of the mean;
+3. use the bootstrap distribution to find a bootstrap percentile confidence
+interval;
+4. compare confidence intervals for the mean using $t$-distribution and the bootstrap distribution.
+5. perform a permutation test for two-sample problem and a matched pairs study using the R package 'CarletonStats';
+6. compare a permutation test for two-sample and a matched pairs studies and $t$-test and the Wilcoxon test;
+7. (OPTIONAL) perform a detailed permutation test using an R package `gtools`.
+
+```{r}
+# Load the workshop data
+print(load("Workshop3.RData"))
+```
+
+```{r eval=FALSE, include=FALSE}
+install.packages("boot")
+install.packages("CarletonStats")
+install.packages("gtools")
+```
+
+# Introduction
+
+In the previous computer labs, you performed rank-based tests to carry out statistical inference for one, two-sample and more than two-sample studies. 
+
+Alternatives to rank-based tests in many situations include bootstrapping and permutation tests. 
+
+## Question 1 Adapted from Moore et al (2017) Ex 16.3 Bootstrapping: Gosset’s data on double stout sales.
+
+(a) We read the data and then create histogram, QQ plot and Shapiro test for Normality.
+
+```{r}
+gosset.data <- c(94, 66, 46, 140, 78, 24)
+hist(gosset.data) ## checking histogram, expect symmetry if Normal
+qqnorm(gosset.data) # check normality
+qqline(gosset.data)
+shapiro.test(gosset.data) ## hypothesis testing for normality, Ho: data are Normal
+```
+
+
+The histogram looks skewed to the right. The Normal quantile plot indicates that a Normal distribution cannot be rejected, as confirmed by Shapiro-Wilk test for normality (p-value=0.9433). 
+
+(b)
+
+```{r}
+mean(gosset.data)
+sd(gosset.data)
+t.test(gosset.data) ## this is a t-test 
+```
+
+From the output of *t.test*, the original sample had a mean of 74.6667%, the sample standard deviation is 40.2923%. The 95% confidence interval for the population mean is (32.3825, 116.9508).
+
+(c) Bootstrapping
+
+# Define function to calculate mean of resamples
+
+```{r}
+theta <- function(data,indices) {
+  d <- data[indices]
+  mean(d)
+}
+```
+
+You need to install the `boot` package. Check the help `?boot'
+
+We use `set.seed(1234)` to reproduce the same generated samples.
+
+The following is bootstrapping B=10.
+
+```{r}
+# load boot library
+require(boot)
+
+# Generate bootstrap distribution
+set.seed(1234)
+gosset.boot1 <- boot(gosset.data, theta, 10) # 10 resampling 
+gosset.boot1  # output of bootstrapping
+```
+
+
+```{r}
+gosset.boot1$t ## a matrix consists of the statistics from n resampling, n=1,...10 bootstrap sample means b=1,2,...,10
+summary(gosset.boot1$t) ## summary statistics from B=10
+gosset.boot1$t0 ## the original sample mean
+```
+
+Bias is defined as Bootstrap sample mean - Original sample mean, such that 
+
+$$Bias=\bar{x}_B - \bar{x}, \quad \bar{x}_B = \bar{x} + Bias.$$ 
+
+The above results is for n=10. The bootstrap sample mean is 71.6667= (74.6667-3), with bias -3 and SE bootstrap is 17.2090.
+The range is [46.33,88.33].
+
+```{r}
+# We can also name as an object gosset.boot11
+# Generate bootstrap distribution
+set.seed(1234)
+gosset.boot11 <- gosset.boot1$t ## a matrix consists of the statistics from n resampling
+summary(gosset.boot11) ## summary statistics from B=10
+head(gosset.boot11) ## bootstrap sample means b=1,2,...,10 (view the first 6)
+```
+
+
+```{r}
+# Plot a histogram here
+hist(gosset.boot11, xlab = "Gosset data", main = "Bootstrap distribution from 10 resamples",col = "tomato3")
+```
+
+In summary, the above results is for n=10. The bootstrap sample mean is 71.6667= 
+(74.6667-3), with bias -3 and SE bootstrap is 17.2090.
+The range is [46.33,88.33].
+
+The histogram is not reflecting of an approximately symmetric 
+distribution. We need to do much larger bootstrapping resampling.
+
+Suppose $n=1000.$
+
+```{r}
+# Generate bootstrap distribution for n=1000
+set.seed(1234)
+gosset.boot2 <- boot(gosset.data, theta, 1000)
+gosset.boot2
+gosset.boot2$t0
+```
+
+
+```{r}
+gosset.boot21 <- gosset.boot2$t ## a matrix consists of the statistics from n resampling
+# head(gosset.boot21)
+summary(gosset.boot21)
+head(gosset.boot21)
+```
+
+```{r}
+# Plot a histogram here
+hist(gosset.boot21, xlab = "Gosset data", main = "Bootstrap distribution from 1000 resamples",col = "tomato3")
+```
+
+The above results is for n=1000. The bootstrap sample mean is 74.2044= (74.6667-0.4623) with bias -0.4623333 and SE 14.69655. The range is [34.67, 119.33]
+
+The histogram looks better than B=10.
+
+
+```{r}
+# Generate bootstrap distribution for n=3000
+set.seed(1234)
+gosset.boot3 <- boot(gosset.data, theta, 3000)
+gosset.boot3$t0 ## the observed value statistic (mean)
+gosset.boot3
+```
+
+
+```{r}
+gosset.boot31 <- gosset.boot3$t ## a matrix consists of the statistics from n resampling
+summary(gosset.boot31)
+head(gosset.boot31)
+```
+
+The above results is for n=3000. The bootstrap sample mean is 74.4906 with bias -0.17611 (= bootstrap-original) and SE 14.82938. The range is [31.00, 129.67]. The histogram looks approximately Normal.
+
+We further check about the histogram and QQ-plot of the size 3000.
+
+```{r}
+# Plot a histogram here
+hist(gosset.boot31, xlab = "Gosset data", main = "Bootstrap distribution from 3000 resamples",col = "tomato3")
+qqnorm(gosset.boot31)
+```
+
+From the histogram, the mean of the bootstrap distribution of size 3000 is about 74.49; it is roughly Normal. 
+
+The Normal quantile plot is straight, except for some straggling at the low end (and a bit at the high end). Based on these plots, the bootstrap distribution is approximately Normal.
+
+d. The bootstrap standard error should be smaller than the standard deviation of the original sample (by approximately a factor of 6) as the sample SE = s/sqrt(n) = 40.2923/sqrt(6)= 16.4493.
+
+e. The bootstrap standard error for B=3000 is 14.82938; this is smaller than our usual SE = s/sqrt(n) = 40.2923/sqrt(6)= 16.4493. (Note that the value of s = 40.2923 comes from the original data set)
+
+f. The original sample had a mean of 74.6667 percent. The definition of bias is *overall mean(bootstrap)-mean(original sample)* 
+
+    - B=3000:  mean= 74.49; bias=-0.17611 (=74.4906-74.6667); SE=14.82938; Range= [31.00,129.67]
+
+    - B=1000:  mean= 74.20 ; bias= -0.4623333 (=74.2044-74.6667); SE=14.69655; Range=[34.67, 119.33]
+
+    - B=10: mean=71.67  ; bias=-3 (71.6667-74.6667); SE=17.2090; Range=[46.33, 88.33]
+
+As B increases, the bootstrapping sample mean is very close to the original sample mean;
+smaller biases and SE are smaller than SE(sample mean)  and a wider range.
+
+## Question 2 t-test, Bootstrapping: confidence intervals
+
+The vector `Calls` contains the length in seconds of a random selection of calls to a call centre during one day of operation. As you will see when you plot the data below, it is highly skewed. We're going to compare confidence intervals for the mean using (a) the $t$-distribution, and (b) using the bootstrap distribution.
+
+  a. Plot a histogram of the data and comment. 
+
+```{r}
+# Plot the data here
+hist(Calls, xlab = "Call length (seconds)", col = "royalblue3", main = "")
+```
+
+*Clearly, the distribution of call lengths is highly skewed, so even though we have `r length(Calls)` observations, using a $t$-distribution might not really be appropriate!*
+
+  b. Use the function `t.test` to calculate a 95% confidence interval for the mean call time.
+
+```{r}
+# Very straightforward syntax for a one-sample t-test
+t.test(Calls)
+```
+
+  c. The next bit of code will produce a bootstrap distribution consisting of 3000 resamples *with replacement* from the original data. To evaluate the code, change `eval=FALSE` to `eval=TRUE`.
+  
+  
+```{r echo=TRUE, eval=TRUE}
+
+# Define function to calculate mean of resamples
+theta <- function(data,indices) {
+  d <- data[indices]
+  mean(d)
+}
+
+# load boot library
+# require(boot)
+
+# Generate bootstrap distribution
+set.seed(9854)
+Calls.boot <- boot(Calls, theta, 3000)
+Calls.boot <- Calls.boot$t
+```
+
+  d. Plot the bootstrap distribution (the variable `Calls.boot`) and comment on its shape.
+  
+```{r}
+# Plot a histogram here
+hist(Calls.boot, xlab = "Call length (seconds)", main = "Bootstrap distribution from 3000 resamples",
+     col = "tomato3")
+```
+
+*The bootstrap distribution is much less skewed, but it is still right-skewed.*
+
+  e. Using the function `quantile`, calculate a (naive) 95% bootstrap distribution, and compare it with the result you obtained in part b. If you're not sure how to use the function, look at its help file.
+  
+```{r}
+# mean and 95% bootstrap confidence interval
+mean(Calls.boot)
+quantile(Calls.boot, c(0.025, 0.975))
+
+```
+
+```{r echo=F, eval=F}
+# mean and 95% CI from original sample
+mean(Calls)
+t.test(Calls)$conf.int
+
+```
+
+*We can see that the two sets of 95% confidence intervals are somewhat different:*
+
+```{r}
+rbind(t.test(Calls)$conf, quantile(Calls.boot, c(0.025, 0.975)))
+```
+
+*The $t$-interval relies on the central limit theorem and hence is symmetric about the sample mean; no such restriction is required for the boostrap interval.*
+
+  f. Add the 95% confidence intervals to the bootstrap histogram, and comment.
+  
+```{r echo=TRUE}
+hist(Calls.boot)
+lines(rep(mean(Calls.boot),2),c(0,700),col="red",lwd=2)
+lines(rep(quantile(Calls.boot,c(0.025)),2),c(0,450),col="red",lwd=2)
+lines(rep(quantile(Calls.boot,c(0.975)),2),c(0,450),col="red",lwd=2)
+lines(rep(mean(Calls),2),c(0,700),col="blue",lwd=3,lty=2)  # original sample mean
+lines(rep(t.test(Calls)$conf.int[1],2),c(0,450),col="blue",lwd=3,lty=2)  # original 95% CI lower bound
+lines(rep(t.test(Calls)$conf.int[2],2),c(0,450),col="blue",lwd=3,lty=2)  # original 95% CI upper bound
+
+```
+
+## Question 3 Ex. 16.76, Moore *et al.* (2014) Permutation - 2 sample
+
+Serum retinol (vitamin) in the blood of children has beneficial effects, such as protecting against fractures. Medical researchers working with children in PNG studied whether recent infections reduced the level of serum retinol. They classified children as recently infected or not on the basis of other blood tests and then measured serum retinol level ($\mu$mol/l). The vectors `Infect` and `NotInfect` contain these levels.
+
+  a. Plot the data in a couple of different ways. Comment on the shape of the distributions. Is a parametric test appropriate?
+
+```{r, fig.height=6, fig.width=4}
+View(Retinol)
+table(Retinol$infection)
+```
+
+We now plot the histograms between Infected and Not Infected.
+
+```{r}
+ind<-Retinol$infection=="yes" # a vector of TRUE/FALSE values
+infected<-Retinol$retinol[ind]  # those retinol measures which are infected
+not.infected<-Retinol$retinol[!ind] # !ind grabs those retinol measures which are not infected
+par(mfrow = c(1,2)) ## to produce 2 columns for 2 plots
+hist(not.infected, xlab = "serum retinol levels", col = "tomato1", main = "Children with no prior infection")
+hist(infected, xlab = "serum retinol levels", col = "royalblue1", main = "Children with prior infection")
+par(mfrow = c(1, 1))
+``` 
+
+
+Another way is to use a boxplot.
+
+```{r}
+boxplot(retinol ~ infection, data = Retinol, names = c("Not infected", "Infected"), main = "distribution of retinol levels", col = c("tomato1", "royalblue1"))
+```
+
+First, the sample sizes are relatively small (9 and 11). Secondly, the "Not infected" is slightly skewed to the right, while "Infected" has one outlier. A parametric t-test would not be appropriate at this stage.
+
+Furthermore, it appears from inspection of the histograms/boxplots that infection does reduce serum retinol levels in children. Retinol levels in the non-infected children appear to be a little more variable than those observed in the infected children. A t-test (without assuming equal variances) is probably fine taking into account that the assumption of normally distributed is being satisfied.
+
+  b. Carry out an appropriate rank-based test to determine whether infections reduce serum retinol level. (If you can't remember, have a look at the solution to the previous computer lab!)
+  
+An appropriate rank-based test here would be the rank-sum test. The basic steps are as follows (for a much more detailed working out of the steps, see the previous Workshop). 
+
+Here we're testing equality of medians against the alternative that the median serum retinol level of the non-infected children is *higher than* that of the previously infected children.
+  
+```{r}
+# Combine the data
+All <- c(not.infected, infected)
+
+# Rank them all
+rankAll <- rank(All)
+
+# calculate the sums of the ranks and then subtract n(n + 1)/2; n will be different for these two vectors!
+wA <- sum(rankAll[1:9])
+wB <- sum(rankAll[10:20])
+uA <- wA - length(not.infected)*(length(not.infected) + 1)/2
+uB <- wB - length(infected)*(length(infected) + 1)/2
+uA # not infected
+uB # infected
+
+```
+
+If the null hypothesis is true, we should expect `uA` to be roughly equal to `uB`. We can calculate the $p$-value in either of two ways: by calculating $p(U \geq uA)$ or $p(U \leq uB)$, because the rank-sum distribution is symmetric:
+
+
+```{r}
+pwilcox(uB, 9, 11) # lower tail
+1 - pwilcox(uA, 9, 11) # upper tail
+```
+
+The $p$-value is pretty small, about 2%, so we'd reject the null in favour of the alternative hypothesis that children who have never had prior infections have higher median serum retinol levels than those who have had prior infections.
+
+In *R*, the function `wilcox.test` allows you to do the same thing more compactly:
+```{r}
+wilcox.test(not.infected, infected, alternative = "greater", exact = FALSE)
+```
+
+The order in which the variables are entered determines the alternative hypothesis - see the documentation for `wilcox.test`. Also, the $p$ value is slightly different because this function uses a Normal approximation to the Wilcoxon rank-sum distribution.
+
+```{r}
+t.test(not.infected, infected, alternative = "greater")
+```
+
+
+  c. How might you produce a single permutation of the data under a null hypothesis of no difference between the serum levels of the two groups?   
+
+Firstly, have a look at the two samples:
+```{r}
+infected
+not.infected
+```
+
+Under the null hypothesis, both samples have the same distribution. So, in effect, the observations could have been drawn from the same distribution and randomly assigned to be in one of the two groups. If this assumption is true you would expect two random samples drawn from the same distribution to generally have the same mean (or some other population parameter of interest). 
+
+A permutation test reassigns sample membership and will assess the likelihood of the null hypothesis being true by calculating the mean (or other parameter) for all the possible sample assignments, one of which is the actual observed one. 
+
+One permutation could be to just swap the first values of the two samples:
+```{r}
+c(not.infected[1],infected[-1]) ## for the infected
+c(infected[1],not.infected[-1]) ## for not infected
+```
+
+  d. The code below uses *permTest* from *CarletonStats* package to conduct permutation test to test a hypothesis involving two independent samples. The output will provide you with the p-value, ie the number of times the mean differences in the permutation distribution are equal to or exceed the observed mean difference of the original sample, divided by the number of permutations.
+  
+The R code is much simpler than the optional explanation in parts (e) and (f) which aimed for more detail to calculate each sample from permutations.
+
+```{r}
+library(CarletonStats)
+```
+
+```{r}
+set.seed(123)
+permTest(Retinol$retinol, Retinol$infection,  alternative = "greater")
+```
+
+So only 1.99% of test statistics would be as extreme as the observed one under the null hypothesis. This corresponds to the p-value, p= 0.0199, which is a little more significant than *the p=0.026 that we observed for the Wilcoxon rank sum test*. It is  closer to *the p-value of 0.02 of the two-sample t-test.* 
+
+
+e. (OPTIONAL) The code below will produce a vector (`PermDist`) containing the permutation distribution. It simply calculates the mean difference between 'Not Infected' and 'Infected' groups for all possible permutations. To run this chunk, change `eval=FALSE` to `eval=TRUE`.
+
+
+```{r eval=T}
+# First, we need to make sure the package 'gtools' is installed,and then load it into our current session
+# If necessary (look in the "Packages" pane in bottom right-hand corner to check), install the package by going to Tools -> Install Packages, (if not already in list), and then 
+
+library(gtools)
+
+# Calculate the difference between the mean of serum retinol levels in uninfected and infected children.
+observed.meandiff <- mean(not.infected) - mean(infected)
+observed.meandiff
+
+# Generate a matrix containing all possible permutations of the indices for the 'non-infected' children (ie 9 out of the 20)
+Perms <- combinations(20, 9)
+
+# For all these possible combinations, calculate the difference between the mean; the result will be very long vector containing the permutation distribution
+## the following code takes each row of the matrix Perms and uses this as the first input argument to the defined function
+PermDist <- apply(Perms, 1, function(ind,vals){
+  mean(vals[(1:20)[ind]])-mean(vals[(1:20)[-ind]])
+},Retinol$retinol)
+```
+How large is the matrix `Perms` that has just been created? Have a look at the first few rows of `Perms` to make sure you understand what it represents. 
+
+```{r}
+dim(Perms)  # number of rows by number of columns
+```
+
+There are 167960 rows of `Perms` corresponding to the (20!)/((9!)*(11!)) possible ways of assigning 20 values into 2 groups of size 9 and 11.
+
+```{r}
+head(Perms)
+```
+Each row `Perms` gives an index for the sample row which will correspond to membership of the "uninfected" group.
+
+
+How many values are there in the permutation distribution? Plot a histogram of the permutation distribution.
+
+`PermDist` has as many values as there were rows in the `Perms` matrix. Check the help function of `apply`. Row by row, the function above calculated the difference between the mean of the "uninfected" group (as assigned by the row vector of indices) and the mean of the "infected" group (as assigned by the values 1:20 that weren't in the row vector). 
+
+  
+```{r}
+par(mfrow=c(1,1))
+hist(PermDist)
+lines(rep(observed.meandiff,2),c(0,10000),lwd=2,col="red")
+```
+
+From the histogram of all the test statistics (ie difference in means) calculated from the permuted samples, we can see that the observed mean difference, plotted here in red, is towards the tail of the distribution. As with all the other testing procedures you have seen, a test statistic in the tail of the distribution generated under the null hypothesis would cast doubt on that hypothesis being true.
+
+
+  f. (OPTIONAL, continue from (e)). The exact $p$-value is the number of times the values in the permutation distribution are equal to or exceed the observed mean difference, divided by the number of permutations. Calculate it. Compare it with the $p$-value you calculate using the rank-based test.
+  
+```{r}
+mean(PermDist>=observed.meandiff)
+```
+
+So only 1.7% of test statistics would be as extreme as the observed one under the null hypothesis. This corresponds to the p-value, p= 0.017, which is in the same ball park but a little more significant than *the p=0.026 that we observed for the Wilcoxon rank sum test*. It is in fact closer to *the p-value of 0.02 of the two-sample t-test.* 
+
+
+Moreover the distribution of the test statistic under the null hypothesis (as seen in the histogram above) appears to be approximately normal indicating it was probably reasonable to accept the assumptions of the t-test procedure were not seriously violated.
+
+  
+  g. (OPTIONAL) If, for example, the researchers were interested in testing a hypothesis about the *ratio* of serum retinol levels, how would the permutation test be modified?
+
+The advantage of permutation methods is that we can calculate the permutation distribution of any statistic calculated from the data. If we're interested in the ratio of two quantities, then we simply calculate for each of the permuted datasets, this ratio, and that will give us the permutation distribution.
+
+```{r}
+PermDistRatio <- apply(Perms, 1, function(ind,vals){
+  mean(vals[(1:20)[ind]])/mean(vals[(1:20)[-ind]])
+},Retinol$retinol)
+```
+  
+```{r }
+par(mfrow=c(1,1))
+hist(PermDistRatio)
+lines(rep(mean(not.infected)/mean(infected),2),c(0,10000),lwd=2,col="red")
+```
+
+```{r}
+mean(not.infected)/mean(infected)
+mean(PermDistRatio>=mean(not.infected)/mean(infected))
+```
+
+Here the histogram of the permutation test results has highlighted the lack of normality of the sampling distribution of the ratio of 2 sample means (which holds true even if the underlying sample distributions are normal). If the 2 samples were drawn for the same distribution your would expect the ratio of their means to be 1. Here the observed ratio was 1.6, and again 1.7% of the permutation sample ratios exceeded this. 
+
+
+  
+## Question 4 Paired data- Permutation, t-test and Wilcoxon test
+
+To carry out the hypothesis test in two sample, we permuted the observations between the two groups. In carrying out hypothesis testing for paired data, however, we cannot mix results for different observations. Instead, we carry out the permutation within each paired observations. Thus, if there are $n$ paired observations, there will be $2^n$ permutations.
+
+In this question, we will use the `Shoes` data, where we want to test whether the wear of material B is greater than that of material A.
+
+```{r echo=F, eval=F}
+head(Shoes)
+View(Shoes)
+```
+
+  a. Calculate the difference between the wear of material B and material A, and store it into a vector. What is the mean difference?
+  
+```{r echo=F, eval=F}
+mean.weardiff<-mean(Shoes$matB-Shoes$matA)
+mean.weardiff
+```
+
+
+  b. Plot the differences in a useful way, and comment.
+```{r}
+boxplot(Shoes$matB-Shoes$matA)
+```
+For most pairs of shoes, the shoe made of material B had a longer wear time than that made of material A.
+
+
+c. What would one permutation of this data be? How many permutations of the sample labels are possible for these data? Generate 
+  
+```{r echo=F, eval=F}
+PermDiffs<-permutations(2,10,c(-1,1),repeats=TRUE)
+dim(PermDiffs)
+head(PermDiffs)
+```
+
+Each row of the permutation matrix here corresponds to a labelling of the 10 pairs of shoes: A permutation label of +1 means the first wear time in the pair will be labelled "A" and the second one "B" (corresponding to the direction of our calculated mean difference of column 2  - column 1 (matB-matA)); a permatation label of -1 corresponds to the opposite calculation for that pair: first value - second value.   
+
+d. We will be using *permTestPaired* from *CarletonStats* package to perform permutation test for paired data.
+
+```{r}
+set.seed(123)
+permTestPaired(Shoes$matA, Shoes$matB,  alternative = "greater")
+```
+
+The p-value of 0.0071 corresponds to the proportion of times the permutation test statistic distribution was at least as extreme as the observed difference of 0.41.
+
+The histogram is also produced by this R command.
+
+
+e. (OPTIONAL) Using the permutation matrix and some simple matrix algebra you can calculate the permutation distribution. Store the resulting vector and plot it as a histogram. Where would the observed test statistic sit?
+  
+```{r echo=F, eval=F}
+PermDiffsDist<-(PermDiffs%*%abs(Shoes$matB-Shoes$matA))/10
+hist(PermDiffsDist)
+lines(rep(mean.weardiff,2),c(0,100),lwd=2,col="red")
+
+```
+  
+
+What is the $p$-value, and what do you conclude?
+```{r}
+# mean.weardiff
+# mean(PermDiffsDist >= mean.weardiff)
+```
+The p-value of 0.0068 corresponds to the proportion of times the permutation test statistic distribution was at least as extreme as the observed difference of 0.41.
+
+  f. How does this compare to that obtained from inbuilt test functions?
+
+
+```{r echo=F, eval=F}
+t.test(Shoes$matB,Shoes$matA,paired=T,alternative="greater")
+```
+```{r echo=F, eval=F}
+wilcox.test(Shoes$matB,Shoes$matA,paired=T,alternative="greater", exact=F)
+```
+
+The p-value from the $t$ test is 0.0043, whereas the p-value from the  Wilcoxon is 0.0072. The p-value from $t$ test is more conservative assuming the assumptions are satisfied. The p-values of 0.0071 (Carleton Stats) and 0.0068 corresponds to the permutation test are slightly smaller than the Wilcoxon signed rank test (which is a Normal approximation with continuity correction).

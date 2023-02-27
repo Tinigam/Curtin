@@ -1,0 +1,482 @@
+---
+title: 'RNI1006 Regression and Nonparametric Inference'
+author: 'Computer Lab 3 Solution'
+output:
+  word_document: default
+  html_notebook:
+    theme: flatly
+  html_document:
+    highlight: haddock
+    theme: flatly
+  pdf_document: default
+---
+
+```{r echo=TRUE}
+knitr::opts_chunk$set(prompt=TRUE,comment=NA, warning = FALSE)
+```
+
+
+## Learning Check
+
+When you complete this session, you will be able to:
+
+1. understand about the ANOVA model;
+2. perform 6 steps hypothesis testing using ANOVA;
+3. perform *ANOVA with unequal variances (Welch ANOVA)*;
+4. checking the same variances using *Levene Test* for ANOVA model;
+5. state the null and alternative hypotheses that are used for the analysis of
+data using the Kruskal-Wallis tes;
+6. perform 6 steps hypothesis testing using Kruskal-Wallis test;
+7. use computer output to determine the results of both the F-test ANOVA and the Kruskal-Wallis test.
+
+
+Before you start, load the stored datasets provided for exercises below by running the following chunk (assuming the file  "Workshop3.Rdata" is saved in the same directory as the .Rmd  worksheet).
+
+You need some R packages: `summarytools; car; ` for descriptive statistics and Levene Test for equal variances.
+
+```{r}
+print(load("Workshop3.RData"))
+```
+
+One-way ANOVA is used for situations in which there is only one factor or only one way to classify the populations of interest. 
+
+_Conditions for ANOVA Inference_
+
+1. We have $K$ independent simple random samples (SRSs), one from each population.  We measure the same response variable for each sample.
+2. The ith population has a Normal distribution with unknown mean $μ_i.$ 
+3. All the populations have the same standard deviation $\sigma$, whose value is unknown. 
+
+Use Levene Test to check the equal variances OR use Welch ANOVA test with unequal variances instead of F test.
+
+Checking Standard Deviations in ANOVA: The results of the ANOVA F test are approximately correct when the largest sample standard deviation is no more than twice as large as the smallest sample standard deviation. 
+
+_6 Steps ANOVA Hypothesis Testing:_
+
+STEP 1. Hypotheses Testing
+$H_0: \mu_1 = \mu_2 =...=\mu_c $ and $H_1:$ at least one of $\mu_i \not= \mu_j$ where $\mu_i, i=j=1,2,...,K$ are the population means.
+
+
+STEP 2. Test Statistic  $Fo= MSG/MSE$ (see ANOVA Table)
+
+STEP 3. The sampling distribution   $Fo$ that it is  distributed  as  $F$ with $df= (K-1, N-K)$, where $N$ be the total number of observations and $c$ be the number of poulations.
+
+STEP 4.  p-value = $Prob(F_{(K-1, N-K)}  > Fo)$
+
+STEPS 5 and 6. Decision and Conclusion
+
+
+_The Kruskal-Wallis test_ is the nonparametric analogue to a one-way ANOVA for comparing several means. The hypotheses we test are very general---the null hypothesis is that the response has the same distribution in all groups and the alternative hypothesis is that the response is systematically different in at least one of the groups compared to the others. The Kruskal-Wallis statistic is essentially the sum-of-squares for groups calculate for ranks, and it is written as
+$$
+KW = \frac{12}{N(N+1)}\sum_{i=1}^K \frac{R_i^2}{n_i} - 3(N + 1)
+$$
+
+In the expression above, $K$ is the number of groups, $R_i$ is the sum of the ranks of the $i$th group, which contains $n_i$ observations, and $N$ is the total number of observations.
+
+
+## Question 1 Moore et al (2017)
+
+To detect the presence of harmful insects in farm fields, we can put up boards covered with a sticky material and examine the insects trapped on the boards. Which colours attract insects best? Experimenters placed six boards of each of four colours at random locations in a field of oats and measured the number of cereal leaf beetles trapped. 
+
+Here are the data of the number of beetles trapped by board colour.
+```{r}
+Blue<- c(16,11,	20,	21,	14,	7)
+Green <- c(37,	32,	20,	29,	37,	32)
+White <- c(21,	12,	14,	17,	13,	20)
+Yellow	<- c(45,	59,	48,	46,	38,	47)
+```
+
+Equivalently,
+
+```{r}
+number.trapped <- c(Blue,Green,White,Yellow)
+number.trapped  ### observations/ number trapped
+colour<- factor(rep(1:4, c(6,6,6,6)),
+            labels = c("Blue",
+                       "Green",
+                       "White", "Yellow"))  ## factors/colour
+beetles.dat=data.frame(colour, number.trapped)
+beetles.dat
+```
+
+
+a. Exploring the data.
+
+```{r}
+boxplot(number.trapped~colour)
+```
+
+The boxplots showed that there are differences in means among the colours. Furthermore:
+
+  + The colours Blue and White seem to have very similar means;
+  
+  + Yellow has attracted more beetles compared to other colours, followed by Green;
+  
+  + Possible differences between Yellow and other colours; Green with Blue and Green with White.
+
+Now, we would like to obtain the summary statistics.
+
+```{r}
+tapply(beetles.dat$number.trapped, INDEX=beetles.dat$colour, summary)
+```
+
+To obtain standard deviation, one can use:
+
+```{r}
+# install.packages("psych")
+```
+
+
+```{r}
+library(psych)
+describeBy(beetles.dat, beetles.dat$colour)
+```
+
+In terms of the sample means, Yellow is the highest, followed by Green  and then White and then Blue.
+
+In terms of the sample standard deviations, the largest standard deviation is SD(Yellow) = 6.79 and 
+the smallest is SD(White)=3.76. By the rule of thumb for equality variances checking, SD(Yellow) < 
+2*SD(White). We can confirm this with Levene Test for Equality Variances under Ho (see below).
+
+b.Checking the assumptions.
+
+The assumptions are:
+
+1.	Each group must be a *random sample* from the population of interest: (e.g.) we assume the trapped beetles to be a random sample from the population of cereal leaf beetles, so the same goes for the individual groups being studied. 		   
+
+2.	Each population must be *independent* of the others: (e.g.) this study used four groups of six boards to attract beetles. It would seem reasonable to assume that their “allocation” to the four colours can be seen to correspond to independent groups. 
+
+3.	Each population must be *normally* distributed: the histogram and QQ plot of the residuals can be used as a diagnostic checking for normality.
+
+4.	The *variance of each population must be equal*: Levene test for homogeneity of variance is calculated using R (see below). At a significance level of 10%,  the test confirms the null hypothesis of equal variances. 				 
+
+
+```{r}
+library(car)
+leveneTest(data=beetles.dat, number.trapped~colour)
+``` 
+
+Using Levene Test, p-value=0.955, which means that we do not reject Ho (Ho: equal variances among 4 populations). We confirm that the population variances among the 4 groups are equal.
+
+c. We conduct the hypothesis testing. We need to produce ANOVA table for this data.
+
+
+This is ANOVA model ie Anova Table.
+
+```{r}
+colour.aov <- aov(number.trapped ~ colour)
+summary.aov(colour.aov)
+```
+
+OR you can use
+
+```{r}
+anova(aov(number.trapped ~ colour,data=beetles.dat))
+```
+
+STEP 1. Hypotheses Testing-ANOVA
+
+Suppose $\mu_1, \mu_2, \mu_3, \mu_4$ be the population means of numbers of cereal leaf beetles, by colour. 
+
+$H_0:\mu_1 = \mu_2 =\mu_3=\mu_4$ which means that the population means of numbers of cereal leaf beetles are all equal for all colours
+
+and $H_1:$ at least one of $\mu_i \not= \mu_j$ where $\mu_i, i=j=1,...,K=4$ which means that the population means of numbers of cereal leaf beetles are not all equal for all colours.
+
+Here $N=24, K=4.$
+
+STEP 2. Test Statistic  $Fo= MSG/MSE= 1378/32.2=42.84$ (see ANOVA Table)
+
+STEP 3. The sampling distribution   $Fo$ that it is  distributed  as  $F$ with $df= (4-1, 24-4)=(3,20)$, where $N=24$ be the total number of observations and $K=4$ be the number of populations/groups.
+
+STEP 4.  p-value = $Prob(F_{(3,20)} > 42.84) = 6.8e-09$
+
+STEPS 5 and 6. Decision and Conclusion. As the p-value is very small, then we strongly reject the null hypothesis. We conclude that there is strong evidence, at the 0.1 level of significance, to indicate that the means of the number of cereal leaf beetles are not the same for all colours.
+
+## Question 2. The sorption rates
+
+The dataset `Solvents` consists of the sorption (absorption and adsorption) rates of $K = 3$ classes of solvents: alkanes (A), chloroalkanes (C) and esters (E). You are to use the ANOVA and the Kruskal-Wallis test at the 0.05 level of significance to determine if the organic chemical solvents differ significantly in sorption rate. View the data frame by clicking on the spreadsheet icon next to the name of the data frame in the 'Environment' tab. It contains two variables, one for the solvent code (`solvent`, same name as the data frame) and the sorption rate (`sorption.rate`). You can either count the number of observations from each solvent, or better yet, simply invoke the `table` command and calculate the $n_i$:
+
+    a.  View the data. Summarize and explore the data, using boxplot and summary statistics. Comment and interpret the output.
+
+```{r}
+View(Solvents)
+boxplot(sorption.rate~solvent,data=Solvents)
+```
+
+Firstly, we are looking at the _shapes_ of the distributions of Solvents A, C and E. Solvent A has a slightly skewed to the left shape, while Solvents C and  E have quite symmetric distributions. Secondly, in terms of the _center_ (median, the black line), both A and C have similar medians which are higher than the median of E. Thirdly, in terms of the _spread_, Solvent C has a large spread (by IQR or variance), followed by E and A. 
+
+b. If ANOVA is appropriate, use the ANOVA test at the 0.05 level of significance to determine if the organic chemical solvents differ significantly in sorption rate. Summarise the results using 6 steps hypothesis testing.
+
+One of the assumptions in using ANOVA, that the distributions are normal and the variances are constants. Given that Solvent C has a large spread (by IQR or variance), we need to look at the summary statistics and Levene test to check the homogeneity of variances.
+
+
+
+```{r}
+library(psych)
+describeBy(Solvents$sorption.rate, Solvents$solvent)
+```
+
+    
+From the summary statistics, the standard deviation of solvent C is 0.40, while A has 0.17, E has 0.21. As a rule of thumb, similar variances will be satisfied if the largest  sd(C) < 2 sd(A). But this is not hold. 
+
+So, we check with Levene test (see below), which the null hypothesis that the variances across 3 groups are the same. The p-value is 0.01465, which means that we reject the Ho. The variances are not the same. 
+
+```{r}
+library(car)
+leveneTest(data=Solvents, sorption.rate ~ solvent)
+``` 
+
+We have $N=9+8+15=32; K=3.$
+
+For the standard ANOVA with equal variances, the sampling distribution is F with dfs
+$$df1=K-1=3-1=2; df2=N-K=32-3=29 \ {\ that \ is} \ F(2,29)$$
+
+We need to redo the ANOVA with non-constant variance (Welch test) in which we have `var.equal=FALSE`
+
+This is ANOVA with unequal variances (Welch ANOVA)
+
+```{r}
+oneway.test(sorption.rate ~ solvent,data=Solvents,var.equal=FALSE)
+```
+
+*6-steps hypothesis testing using Welch ANOVA with unequal variances:*
+
+1. $H_0:\mu_A = \mu_C = \mu_E$ against $H_1:$ Not all means are the same. In this case the notations $\mu_A, \mu_C, \mu_E$ are the population means of sorption rates from A, C and E respectively.
+
+2. Test statistic: $F = 33.049.$
+
+3. The sampling distribution is $F_{df(2, 14.721)}$
+
+4. p-value= 3.601e-06
+
+5. Decision: As the p-value is very small compared to 5%, then we reject Ho.
+
+6. Conclusion: The organic chemical solvents differ significantly statistically in sorption rate.
+
+    c. Calculate the value of the test statistic by running the following chunks and substituting in the above equation. (Change `eval=FALSE` to `eval=TRUE` where necessary if you want to )
+    
+```{r}
+GroupN <- table(Solvents$solvent); GroupN
+N <- sum(GroupN); N
+```
+The first step is to rank the combined observations from all groups, calculate the sum of the ranks from each group, and then assign the rank sum to the $R_i$. To rank the observations, we use the `rank` function on the sorption rates.
+
+```{r}
+Solvents$rank <- rank(Solvents$sorption.rate) #stored as another column in the dataset
+```
+
+The sums of the ranks in each group can be calculated explicitly.
+
+```{r}
+SumRanksA <- sum(Solvents$rank[Solvents$solvent=="A"]); SumRanksA
+SumRanksC <- sum(Solvents$rank[Solvents$solvent=="C"]); SumRanksC
+SumRanksE <- sum(Solvents$rank[Solvents$solvent=="E"]); SumRanksE
+SumRanks <- c(A=SumRanksA, C=SumRanksC, E=SumRanksE) # note that for convenience of viewing I have named each element of the vector
+SumRanks
+```
+
+Alternatively, the sum of the ranks can be calculated more succently by using the function `sapply` that applies the defined function to the data in each element of an input list.
+
+```{r}
+# The input list here is created by `split`
+SumRanks<-sapply(split(Solvents,Solvents$solvent),function(dat)
+  {
+  return(sum(dat$rank))
+  })
+SumRanks
+```
+
+Calculate manually the value of $KW$ in the expression above, using the 2 calculated variables `SumRanks` and `GroupN`:
+$$KW = \frac{12}{N(N+1)}\sum_{i=1}^K \frac{R_i^2}{n_i} - 3(N + 1).$$
+Given that
+
+$n_A=9, n_C=8 , n_E=15; N=32; R_A=210.5, R_C= 189.0, R_E= 128.5$
+
+$i=1=A; i=2=C, i=3=E, K=3$
+
+then 
+
+$$KW = \frac{12}{32(33)}\left(\frac{(210.5)^2}{9} + \frac{(189.0)^2}{8} + \frac{(128.5)^2}{15} \right) - 3(32 + 1) = 20.197.  $$
+
+    d. Calculate the p-value using the appropriate distribution function in _R_ .
+    
+The test statistic $KW$ can be calculated as follows:
+
+```{r}
+N=32
+KW=12/(N*(N+1))*((210.5)^2/9 +(189.0)^2/8 +(128.5 )^2/15)- 3*(N+1)
+KW
+```
+
+d. Calculate the p-value of the K-W test statistic in part (c) using the appropriate distribution function in _R_ .
+    
+The p-value is based on the chi-square distribution.
+
+```{r}
+pval=1-pchisq(20.19662, df=2)
+pval
+```
+The p-value is 4.114904e-05.
+
+    e. Compare the results using R function (Kruskal.test).
+    
+```{r}
+kruskal.test(sorption.rate  ~ solvent ,data=Solvents)
+```
+
+ f. Summarise the results of hypothesis testing using K-W test (c-e) in 6 steps.
+ 
+In this case, we assume that the 3 samples come from the same shapes of distribution. Therefore, we use medians in the hypotheses.
+
+*6-steps hypothesis testing using K-W test:*
+
+1. $H_0:\eta_A = \eta_C = \eta_E$ against $H_1:$ Not all medians are the same. In this case the notations $\eta_A, \eta_C, \eta_E$ are the population medians of sorption rates from A, C and E respectively.
+
+2. Test statistic: F = 20.211
+
+3. The sampling distribution is $\chi^2(df=2)$
+
+4. p-value= 4.085e-05
+
+5. Decision: As the p-value is very small compared to 5%, then we reject Ho.
+
+6. Conclusion: The organic chemical solvents differ significantly statistically in sorption rate.
+
+
+## Question 3 Calculators
+
+The data in `Calculators` (taken from Ex16.21 in Walpole et al) represent the operating times in hours for three types of scientific pocket calculators before a recharge is required: 
+
+a. Summarize and explore the data. Why/why not would you think the operating times for each type of calculator is the same?
+
+```{r}
+boxplot(operating.time~type,data=Calculators)
+```
+
+Firstly, we are looking at the _shapes_ of the distributions of operating time of Batteries A, B and C. Battery A has a skewed to the right shape, while Batteries B and C have skewed to the left shapes with outliers. Secondly, in terms of the _center_ (median, the black line), the batteries have different medians, where A is the lowest followed by B and C is the highest. Thirdly, in terms of the _spread_, Battery A has a large spread (by IQR or variance), while B and C may have similar spread. 
+
+
+```{r}
+#library(psych)
+describeBy(Calculators$operating.time, Calculators$type)
+```
+
+The above exploration through the boxplot has confirmed that the standard deviations of A is 0.70, while B and C are comparable. Levene test shows that the variances are the same (p-value=0.5076). Therefore we can use ANOVA modelling in this context.
+
+
+```{r}
+leveneTest(data=Calculators, operating.time ~ type)
+```
+
+The above exploration through the boxplot has confirmed that the standard deviations of A is 0.70, while B and C are comparable. Levene test shows that the variances are the same (p-value=0.5076). Therefore we can use ANOVA modelling in this context.
+
+
+b. Use an one-way analysis of variance at the 0.01 level of significance, to test the hypothesis that the operating times for all three calculators are equal. Summarise the results using 6 steps hypothesis testing.
+
+
+```{r echo=F, eval=F}
+summary(aov(operating.time~type,data=Calculators))
+```
+```{r}
+anova(aov(operating.time~type,data=Calculators))
+```
+
+*6-steps hypothesis testing using ANOVA:*
+
+1. $H_0:\mu_A = \mu_B = \mu_C$ against $H_1:$ Not all means are the same. In this case the notations $ \mu_A, \mu_B, \mu_C$ are the population means of operating times from Batteries A, B and C respectively.
+
+2. Test statistic: F = 9.6829
+
+3. The sampling distribution is $F_df(2, 15)$
+
+4. p-value= 0.001994
+
+5. Decision: As the p-value is very small compared to 1%, then we reject Ho.
+
+6. Conclusion: The operating times for all three calculators are statistically significantly different.
+
+c. Use the Kruskal-Wallis test, at the 0.01 level of significance, to test the hypothesis that the operating times for all three calculators are equal. Summarise the results using 6 steps hypothesis testing.
+
+The null hypothesis is the operating times have the same distributions for all three calculators. In this case, as the shapes are different, we cannot state about the same medians in the null hypothesis.
+
+
+```{r}
+kruskal.test(operating.time~type,data=Calculators)
+```
+
+*6-steps hypothesis testing using K-W test:*
+
+1. $H_0:$ the operating times have the same distributions for all three calculators against $H_1:$ at least one of the three calculators that has different operating times.
+
+2. Test statistic: KW = 10.485
+
+3. The sampling distribution is $\chi^2(df=2)$
+
+4. p-value= 0.005288
+
+5. Decision: As the p-value is very small compared to 1%, then we reject Ho.
+
+6. Conclusion: The operating times for all three calculators are statistically significantly different.
+
+
+
+## Question 4 Moore et al (2017)
+
+A private university is interested in determining the best teaching methods for a basic statistics course. The department currently teaches the course in a traditional face-to-face (f2f) format. However, they are experimenting with online teaching and a hybrid (combined online and face-to-face) format. Thirty students who signed up to take a basic statistics course were randomly assigned to one of the three formats (online, hybrid, f2f). All students took the exact same final exam and the scores on the final (ranging from 0 to 100) were used to assess each method. The data are shown below.
+
+```{r}
+online <- c(98,95,85,50,20.5, 23,16.5, 88, 95.5, 88)
+hybrid <- c(100,92,95,87,87,78,65,55,82,91.5)
+f2f <- c(90,100,50,23,78.5, 65.5,47.5,78,84,85)
+```
+
+Equivalently,
+
+```{r}
+scores <- c(online, hybrid, f2f)
+types <- factor(rep(1:3, c(10,10,10)),
+            labels = c("online",
+                       "hybrid",
+                       "face-to-face"))
+```
+
+a. Is an ANOVA appropriate for these data?
+
+We first explore the boxplot.
+```{r}
+boxplot(scores~types)
+scores.aov <- aov(scores~types)
+summary.aov(scores.aov)
+leveneTest(scores~types)
+```
+
+Firstly, we are looking at the _shapes_ of the distributions the scores of Online, Hybrid and Face-to-Face (f2f).  Online has a very large spread compared to the other two.  Furthermore there is an outlier for Hybrid.
+
+b. What is the appropriate null hypothesis being tested if a nonparametric test were to be used to analyze the data?
+
+The null hypothesis is the scores have the same distributions in all groups. In this case, as the shapes are different, we cannot state about the same medians in the null hypothesis.
+
+c. Perform an appropriate nonparametric test on these data. Do you reject or not reject the null hypothesis? (Note: Use a significance level of .05.)
+
+```{r}
+kruskal.test(list(online, hybrid,f2f))
+```
+
+*6-steps hypothesis testing using K-W test:*
+
+1. $H_0:$ the scores have the same distributions in all 3 groups against $H_1:$ the scores of one group are systematically higher or lower than others.
+
+2. Test statistic: KW = 1.5828
+
+3. The sampling distribution is $\chi^2(df=2)$
+
+4. p-value= 0.4532
+
+5. Decision: As the p-value is large compared to 5%, then we do not reject Ho.
+
+6. Conclusion: the exam scores have the same distributions in all 3 groups.
+
+
+
+
+
+

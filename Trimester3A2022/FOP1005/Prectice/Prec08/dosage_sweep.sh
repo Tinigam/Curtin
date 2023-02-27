@@ -1,5 +1,5 @@
 #!/bin/bash
-exp_dir=dosage`date "+%Y-%m-%d_%H_%M_%S"`
+exp_dir=dosage`date "+%Y-%m-%d_%H:%M:%S"`
 mkdir $exp_dir
 cp dosagebase.py $exp_dir
 cp dosage_sweep.sh $exp_dir

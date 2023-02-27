@@ -1,0 +1,419 @@
+---
+title: 'RNI1006 Regression and Nonparametric Inference '
+author: ' Computer Lab 6: Solutions'
+output:
+  word_document: default
+  html_notebook:
+    theme: flatly
+  html_document:
+    highlight: haddock
+    theme: flatly
+  pdf_document: default
+---
+
+## Learning Check
+
+When you complete this session, you will be able to:
+
+1. use *lm()*  in R to obtain the least-squares line to model a linear relationship between two continuous variables;
+
+2. interpret the slope and intercept of a regression line;
+
+3. understand the different information provided by the
+hypothesis test in a regression output in R;
+
+4. perform hypothesis testing related to a SLR;
+
+5. calculate the confidence intervals for the parameters in SLR.
+
+Before you start, load the stored datasets provided for exercises below by running the following chunk (assuming the file  "Workshop5.Rdata" is saved in the same directory as the .Rmd  worksheet).
+
+
+```{r echo=TRUE}
+knitr::opts_chunk$set(prompt=FALSE, comment=NA, tidy=TRUE, error=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{r echo=F}
+print(load("Workshop5.RData"))
+```
+
+## Question 1 Follow the Bouncing Ball: Predictor-Response Data 
+
+Open the file *balldrop.csv*. The problem of interest in this task is the relationship between the time taken for a tennis ball to bounce three times and the height from which the ball was dropped.
+
+(a). What is the explanatory variable and what is the response variable in this experiment?
+
+The explanatory variable is the height at which the ball is dropped.
+
+The response variable is the time from when the ball is dropped to when it hits the ground for the third time.
+
+(b). Form a scatterplot of the time against drop height. Interpret.
+
+```{r}
+balldrop=read.csv("balldrop.csv")
+View(balldrop)
+plot(time~height, data=balldrop, xlab="Height", ylab="Time")
+```
+
+Clearly there is a quite linear form, in positive direction with a strong relationship between time and drop height. 
+
+
+(c). Fit the least squares line to the data using R. Explain the fitted model, by interpreting the slope and intercept.
+
+```{r}
+regress.balldrop=lm(time~height, data=balldrop)
+summary(regress.balldrop)
+plot(time~height, data=balldrop, xlab="Height", ylab="Time")
+abline(regress.balldrop, lwd = 3, col = "darkorange") ## adding the fitted line from regress.baldrop
+```
+
+The two numbers which define the regression model are given as
+
+time = 0.6392 + 0.7484 height.
+
+*Slope interpretation* $\hat{\beta}_1=0.7484.$  This means that the time for this particular tennis ball to bounce three times increases 0.7484 seconds on average for every 1m increase in the height from which it is dropped. The constant term suggests that when the drop height is 0m the time to the third bounce can be expected to be 0.6392 seconds. 
+
+*Intercept interpretation* $\hat{\beta}_0=0.6392.$ Clearly, if the ball is already on the ground, it makes no sense to talk about the time to the third bounce. Even if this was a sensible concept, a height of 0m is outside the range of the experimental data so extrapolating the model to this value is unlikely to yield an accurate estimate of the true time. Even when this number doesn't have a sensible interpretation in the context of the particular example, it always has meaning in fixing the location of the fitted regression line.
+
+(d). What does the relationship appear to be between time and drop height? 
+
+There is perhaps a suggestion of a curved relationship rather than a strictly linear relationship.
+
+## Question 2. Wet Weight of Maize Plants
+
+In an experiment to investigate the effect of fertiliser on the
+growth of maize plants, 60 maize plants were grown, each with
+a recorded weight in mg of fertiliser applied.  
+The plants were harvested and the wet weight of each in grams was also recorded.  The data were collected and are available in *maize.csv*.
+
+You are to investigate the relationship between the wet weight of a maize plant and the weight of fertiliser applied.
+
+(a). Open the Excel file *maize.csv*;
+
+```{r}
+maize=read.csv("maize.csv")
+View(maize)
+```
+
+There are n=60 observations. 
+
+The explanatory variable is the weight of fertiliser applied.
+
+The response variable is the the wet weight of a maize plant.
+
+(b). Construct a scatterplot of plant weight against fertiliser amount. Observe that the relationship is approximately linear and homoscedastic;
+
+```{r}
+plot(Plant.weight.in.g ~ Fertiliser.weight.in.mg, data=maize, xlab="Fertilizer amount", ylab="Weight")
+```
+
+
+(c). Fit the least squares line to the data using R. Explain the fitted model, by interpreting the slope and intercept.
+
+```{r}
+maize.reg=lm(Plant.weight.in.g ~ Fertiliser.weight.in.mg, data=maize)
+names(maize.reg) ## to check the output
+summary(maize.reg)
+plot(Plant.weight.in.g ~ Fertiliser.weight.in.mg, data=maize, xlab="Fertilizer amount", ylab="Weight")
+abline(maize.reg, lwd = 3, col = "darkorange") ##  to add lines of the form a+bx to a plot.
+```
+
+
+```{r}
+maize.reg$coefficients
+maize.reg$residual[1:5] # first five values of residuals
+maize.reg$fitted.values[1:5] # first five fitted values
+```
+
+
+The fitted model is 
+
+     Plant weight (g) = 7.4020 + 0.021 Fertiliser amount (mg)
+
+*Slope interpretation* $\hat{\beta}_1=0.021.$ For every 1mg increase in amount of fertiliser being applied, the increase in
+average plant weight is around 0.021g (slope or gradient).
+
+*Intercept interpretation* $\hat{\beta}_0=7.4020.$According to our model, the average weight of plants grown with no fertiliser
+is around 7.4020g (intercept).
+
+(d). Perform a hypothesis testing for a positive slope at a significance level of 5%.
+
+6 steps hypothesis testing for $\beta_1$:
+
+1. $H_0: \beta_1 = 0, H_1:\beta_1 > 0$ 
+
+2. The test statistic (from R output as in the above): 
+
+$t=\frac{\hat{\beta}_1-0}{se(\hat{\beta}_1)}=\frac{0.021060}{0.004404}=4.782$
+
+3. The sampling distribution for the test statistic is $t$ is $T_{df=(n-2)}$
+that is $T_{df=60-2=58.}$
+
+4. The p-value = $P(T_{df=58} > 4.782)= 6.148683e-06$ (see below)
+
+```{r}
+pval=pt(4.782,58, lower.tail=F)
+pval
+```
+
+Note that the p-value that being provided in the R output is for two-sided test which is  1.23e-05. For one sided, the p-value is a half of two sided.
+
+5. Decision. Given the p-value is very small, less than the significance level, then we strongly reject the null hypothesis.
+
+6. Conclusion. We conclude that the slope is statistically significantly positive.
+
+
+(e). Calculate the 95% confidence intervals for both parameters slope and intercept respectively.
+
+```{r}
+tval=qt(0.025, 58, lower.tail=F)
+tval
+```
+
+
+Use the following formulas to calculate the confidence intervals for $\beta_1, \beta_0$ respectively:
+
+$$\hat{\beta}_1 \pm t_{df=58, 0.025} se(\hat{\beta}_1)=0.02106\pm 2.0017(0.0044)=(0.0122, 0.0299)$$
+```{r}
+se.beta1=0.0044
+upper.beta1=maize.reg$coefficients[2]+tval*se.beta1  ## slope
+upper.beta1
+lower.beta1=maize.reg$coefficients[2]-tval*se.beta1
+lower.beta1
+```
+
+$$\hat{\beta}_0 \pm t_{df=58, 0.025} se(\hat{\beta}_0)=7.40199 \pm 2.0017(0.8622)=(5.6761,9.1279)$$
+```{r}
+se.beta0=0.8622
+upper.beta0=maize.reg$coefficients[1]+tval*se.beta0
+upper.beta0
+lower.beta0=maize.reg$coefficients[1]-tval*se.beta0
+lower.beta0
+```
+
+This R command *confit* provides you with the results.
+
+```{r}
+confint(maize.reg)
+```
+
+The 95% confidence intervals for the slope ${\beta}_1$:
+
+$$ 0.0122 < {\beta}_1 < 0.0299.$$
+The interpretation: we are 95% confident that the population slope of this context is between 0.0122 and 0.0299. This confirms the hypothesis testing in the above that 0 is not within the interval, ie the slope is positive.
+
+The 95% confidence intervals for the intercept ${\beta}_0$:
+
+$$ 5.6760 < {\beta}_0 < 9.1280.$$
+
+We are 95% confident that the population intercept of this context is between 5.6760 and 9.1280.
+
+## Question 3  Revisiting Geyser data
+
+A geyser is a hot spring in which water boils intermittently, sending a tall column of water and steam into the air. One of the best known geysers in the US is Old Faithful in Yellowstone National Park, Wyoming. It was so named when it was first discovered in 1870 because it was (and is) said to erupt regularly. But what does regularly mean?
+
+The data file for this workshop contains the _R_ data frame `faithful`, which consists of sequential measurements of the duration of an eruption (eruptions, in minutes) and the time to the next eruption (waiting, also in minutes). They were obtained during October 1980 by volunteers. These data were collected so that park rangers could inform tourists when an eruption was likely to occur.
+
+As part of your work with the US National Park Service, you have been tasked with constructing a predictive model for waiting time as a linear function of eruption duration so that park rangers can inform tourists when an eruption is likely to occur.
+
+(a) Produce a scatterplot of the waiting time and length of eruptions. 
+Comment on any patterns you see in the data and on the relationship between waiting time and eruption duration in such a way that a tourist to Old Faithful might understand. 
+
+```{r}
+View(OldFaithful)
+head(OldFaithful)
+plot(waiting ~ eruptions, data = OldFaithful, xlab = "eruption duration (minutes)",
+ylab = "time to next eruption (minutes)", main = "Eruptions from Old Faithful (October 1980)")
+```
+
+n=272
+
+The interpretations:
+
+1. (*Form, direction*). There is a positive linear relationship between eruption duration and the time till the next one. This means that the longer the eruption, the longer you have to wait till the next one. 
+
+2. (*Strength*) However, it appears this relationship is due to some extent to clustering of the eruptions into 2 main groups: those with duration time less than about 2.5 minuteswith waiting time less than 70 minutes, and those lasting longer than 3.5 minutes with waiting time greater than 70 minutes. 
+
+3. After an eruption of a certain duration, there is a range of waiting times.
+
+(b). Fit the least squares line to the data using R. Explain the fitted model, by interpreting the slope and intercept.
+
+```{r}
+geyser.lm=lm(waiting ~ eruptions, data = OldFaithful)
+summary(geyser.lm)
+plot(waiting ~ eruptions, data = OldFaithful, xlab = "eruption duration (minutes)",
+ylab = "time to next eruption (minutes)", main = "Eruptions from Old Faithful (October 1980)")
+abline(geyser.lm, lwd = 3, col = "darkorange")
+```
+
+The fitted model is 
+
+    Waiting time = 33.4744 + 10.7296 (eruptions duration)
+
+*Slope interpretation* $\hat{\beta}_1= 10.7296.$ For every 1-minute increase in duration of an eruption there will be a mean increase in waiting time until the next one of 10.73 minutes.
+
+*Intercept interpretation* $\hat{\beta}_0=33.4744.$ According to our model, the average of waiting time until the next one when there is no eruption is 33.47 minutes. However, in this context, it is not interpretable.
+
+
+(c). Perform a hypothesis testing for a positive slope at a significance level of 1%.
+
+6 steps hypothesis testing for $\beta_1$:
+
+1. $H_0: \beta_1 = 0, H_1:\beta_1 > 0$ 
+
+2. The test statistic (from R output as in the above): 
+
+$t=\frac{\hat{\beta}_1-0}{se(\hat{\beta}_1)}=\frac{10.7296}{0.3148}=34.09.$
+
+3. The sampling distribution for the test statistic is $t$ is $T_{df=(n-2)}$
+that is $T_{df=272-2=270.}$
+
+4. The p-value = $P(T_{df=270} > 34.09)= 4.03995e-100$ (see below)
+
+```{r}
+pval=pt(34.09,270, lower.tail=F)
+pval
+```
+
+
+5. Decision. Given the p-value is very small, less than the significance level, then we strongly reject the null hypothesis.
+
+6. Conclusion. We conclude that the slope is statistically significantly positive.
+
+(d). Calculate the 99% confidence intervals for both parameters slope and intercept respectively.
+
+```{r}
+confint(geyser.lm, level =0.99)
+```
+
+Calculate a 99% confidence interval for the true slope.
+
+```{r}
+se.beta1.g=0.3148
+se.beta0.g=1.1549
+c(geyser.lm$coefficients[2]-qt(0.005,270)*se.beta1.g,geyser.lm$coefficients[2]+qt(0.005,270)*se.beta1.g)
+c(geyser.lm$coefficients[1]-qt(0.005,270)*se.beta0.g,geyser.lm$coefficients[1]+qt(0.005,270)*se.beta0.g)
+```
+
+We are 99% confident that the population slope of this context is between 9.9129 and 11.5463.
+
+## Question 4 Strength
+
+Open the file *strength.csv*. This file contains the results of an experiment conducted on a class of a first year Statistics class students relating gender (M or F), weight (kgs) and strength (bws).
+
+(a). Does a scatterplot suggest a linear relationship between weight and strength?
+
+```{r}
+strength=read.csv("strength.csv")
+View(strength)
+plot(Strength ~ Weight, data=strength, xlab="Weight", ylab="Strength")
+```
+
+The scatterplot shows a positive relationship between weight and strength. A simple line may not be a very good model for this relationship however.
+
+(b). Fit a regression line to the data. Explain the fitted model.
+
+```{r}
+strength.lm=lm(Strength ~ Weight, data = strength)
+summary(strength.lm)
+plot(Strength ~ Weight, data = strength, xlab = "Weight",ylab = "Strength", main = "Strength dataset")
+abline(strength.lm, lwd = 3, col = "blue")
+```
+
+The regression model fitted to the data is 
+
+$$\text{Strength} = 34.16 + 0.337 \text{Weight}$$
+Interpretation: 
+
++ Strength increases by 0.337 bws for every 1kg increase in weight. 
+
++ There is no sensible interpretation of the intercept (it makes no sense to talk about a person weighing 0kg having a strength of 34.16 bws), but this number fixes the location of the regression line.
+
+(c). Test the hypothesis of no relationship, using both the slope and correlation test.
+
+6 steps hypothesis testing for $\beta_1$:
+
+1. $H_0: \beta_1 = 0, H_1:\beta_1 \not= 0$ 
+
+2. The test statistic (from R output as in the above): 
+
+$t=\frac{\hat{\beta}_1-0}{se(\hat{\beta}_1)}=\frac{0.337}{0.107}=3.140.$
+
+3. The sampling distribution for the test statistic is $t$ is $T_{df=(n-2)}$
+that is $T_{df=19-2=17.}$
+
+4. The p-value = $P(|T_{df=17}| > 3.14)= 0.00598.$ (see above output)
+
+5. Decision. Given the p-value is very small, less than the significance level, then we strongly reject the null hypothesis.
+
+6. Conclusion. We conclude that the slope is statistically significantly different to 0.
+    
+(d). Using R, obtain 90% confidence intervals for the slope. 
+
+```{r}
+confint(strength.lm, level=0.90)
+cor(strength$Weight, strength$Strength)
+```
+
+
+We are 90% confident that the population slope of this context is between 0.1504 and 0.5242.
+
+(e). Repeat the questions in (a)-(c) by gender.
+
+```{r}
+strengthF=subset(strength, Sex=="F")
+View(strengthF)
+strengthM=subset(strength, Sex=="M")
+View(strengthM)
+```
+
+```{r}
+strengthF.lm=lm(Strength ~ Weight, data = strengthF)
+summary(strengthF.lm)
+plot(Strength ~ Weight, data = strengthF, xlab = "Weight",ylab = "Strength", main = "Strength (Female) dataset")
+abline(strengthF.lm, lwd = 3, col = "blue")
+```
+
+
+```{r}
+strengthM.lm=lm(Strength ~ Weight, data = strengthM)
+summary(strengthM.lm)
+plot(Strength ~ Weight, data = strengthM, xlab = "Weight",ylab = "Strength", main = "Strength (Male) dataset")
+abline(strengthM.lm, lwd = 3, col = "blue")
+```
+
+Females: Strength = 47.334 + 0.124 Weight, $\beta_1$ not significantly different to 0 ($p=0.114$).
+
+Males: Strength = 41.085 + 0.279  Weight, $\beta_1$ not significantly different to 0 ($p=0.213$).
+
+The larger slope value for males (0.279) suggests that the increase in strength for each extra kg of body weight is larger for males than
+for females but the estimates are not precise enough to make this conclusion. In splitting our data we have actually lost precision in
+our estimates and neither model is very good.
+
+We now plot the three fitted lines in the same scatterplot.
+
+```{r}
+plot(Strength ~ Weight, data = strength, xlab = "Weight",ylab = "Strength", main = "Strength dataset")
+abline(strength.lm, lwd = 3, col = "green") ## for all observations
+abline(strengthM.lm, lwd = 3, col = "blue") ## male
+abline(strengthF.lm, lwd = 3, col = "red") ## female
+```
+
+
+To plot the two line simultaneously, you can also use the following package. *mosaic*
+
+```{r}
+## ignore this command, this is only for Darfiana's laptop. Go to the next chunk.
+options("install.lock"=FALSE)
+```
+
+
+```{r}
+install.packages("mosaic")
+```
+
+```{r}
+library(mosaic)
+xyplot(Strength ~ Weight,data=strength,groups=Sex, type=c("p","r"), xlab= "Weight", ylab="Strength")
+```
+

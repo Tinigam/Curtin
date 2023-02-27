@@ -1,0 +1,122 @@
+---
+title: 'RNI1006 Regression and Nonparametric Inference'
+author: 'Computer Lab 6'
+output:
+  word_document: default
+  html_notebook:
+    theme: flatly
+  html_document:
+    highlight: haddock
+    theme: flatly
+  pdf_document: default
+---
+
+## Learning Check
+
+When you complete this session, you will be able to:
+
+1. use *lm()*  in R to obtain the least-squares line to model a linear relationship between two continuous variables;
+
+2. interpret the slope and intercept of a regression line;
+
+3. understand the different information provided by the
+hypothesis test in a regression output in R;
+
+4. perform hypothesis testing related to a SLR;
+
+5. calculate the confidence intervals for the parameters in SLR.
+
+Before you start, load the stored datasets provided for exercises below by running the following chunk (assuming the file  "Workshop5.Rdata" is saved in the same directory as the .Rmd  worksheet).
+
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(prompt=FALSE, comment=NA, tidy=TRUE, error=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{r echo=F}
+print(load("Workshop5.RData"))
+```
+
+## Question 1 Follow the Bouncing Ball: Predictor-Response Data 
+
+Open the file *balldrop.csv*. The problem of interest in this task is the relationship between the time taken for a tennis ball to bounce three times and the height from which the ball was dropped.
+
+(a). What is the explanatory variable and what is the response variable in this experiment?
+
+(b). Form a scatterplot of the time against drop height. Interpret.
+
+```{r}
+balldrop=read.csv("balldrop.csv")
+View(balldrop)
+plot(time~height, data=balldrop, xlab="Height", ylab="Time")
+```
+
+(c). Fit the least squares line to the data using R. Explain the fitted model, by interpreting the slope and intercept.
+
+(d). What does the relationship appear to be between time and drop height? 
+
+
+## Question 2. Wet Weight of Maize Plants
+
+In an experiment to investigate the effect of fertiliser on the
+growth of maize plants, 60 maize plants were grown, each with
+a recorded weight in mg of fertiliser applied.  
+The plants were harvested and the wet weight of each in grams was also recorded.  The data were collected and are available in *maize.csv*.
+
+You are to investigate the relationship between the wet weight of a maize plant and the weight of fertiliser applied.
+
+(a). Open the Excel file *maize.csv*;
+
+(b). Construct a scatterplot of plant weight against fertiliser amount. Observe that the relationship is approximately linear and homoscedastic;
+
+```{r}
+plot(Plant.weight.in.g ~ Fertiliser.weight.in.mg, data=maize, xlab="Fertilizer amount", ylab="Weight")
+```
+
+(c). Fit the least squares line to the data using R. Explain the fitted model, by interpreting the slope and intercept.
+
+(d). Perform a hypothesis testing for a positive slope at a significance level of 5%.
+
+(e). Calculate the 95% confidence intervals for both parameters slope and intercept respectively.
+
+
+## Question 3  Revisiting Geyser data
+
+A geyser is a hot spring in which water boils intermittently, sending a tall column of water and steam into the air. One of the best known geysers in the US is Old Faithful in Yellowstone National Park, Wyoming. It was so named when it was first discovered in 1870 because it was (and is) said to erupt regularly. But what does regularly mean?
+
+The data file for this workshop contains the _R_ data frame `faithful`, which consists of sequential measurements of the duration of an eruption (eruptions, in minutes) and the time to the next eruption (waiting, also in minutes). They were obtained during October 1980 by volunteers. These data were collected so that park rangers could inform tourists when an eruption was likely to occur.
+
+As part of your work with the US National Park Service, you have been tasked with constructing a predictive model for waiting time as a linear function of eruption duration so that park rangers can inform tourists when an eruption is likely to occur.
+
+(a) Produce a scatterplot of the waiting time and length of eruptions. 
+Comment on any patterns you see in the data and on the relationship between waiting time and eruption duration in such a way that a tourist to Old Faithful might understand. 
+
+```{r}
+View(OldFaithful)
+head(OldFaithful)
+plot(waiting ~ eruptions, data = OldFaithful, xlab = "eruption duration (minutes)",
+ylab = "time to next eruption (minutes)", main = "Eruptions from Old Faithful (October 1980)")
+```
+
+(b). Fit the least squares line to the data using R. Explain the fitted model, by interpreting the slope and intercept.
+
+(c). Perform a hypothesis testing for a positive slope at a significance level of 1%.
+
+(d). Calculate the 99% confidence intervals for both parameters slope and intercept respectively.
+
+
+## Question 4 Strength
+
+Open the file *strength.csv*. This file contains the results of an experiment conducted on a class of a first year Statistics class students relating gender (M or F), weight (kgs) and
+strength (bws).
+
+(a). Does a scatterplot suggest a linear relationship between weight and strength?
+
+(b). Fit a regression line to the data. Explain the fitted model.
+
+(c). Test the hypothesis of no relationship, using both the slope and correlation test.
+    
+(d). Using R, obtain 90% confidence intervals for the slope. 
+
+(e). Repeat the questions in (a)-(b) by gender.
+    

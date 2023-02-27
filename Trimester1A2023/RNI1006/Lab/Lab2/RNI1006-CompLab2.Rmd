@@ -1,0 +1,127 @@
+---
+title: 'RNI1006 Regression and Nonparametric Inference'
+author: 'Computer Lab 2'
+output:
+  word_document: default
+  html_notebook:
+    theme: flatly
+  html_document:
+    highlight: haddock
+    theme: flatly
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Learning Check
+
+When you complete this session, you will be able to:
+
+1. revise *paired t-test and two-sample t-test*;
+2. find *the rank transformation* for a set of paired data and two independent samples;
+3. state *the null and alternative hypotheses* that are used for the analysis of
+data using the Wilcoxon signed rank test for paired data and the Wilcoxon rank sum test for two independent samples;
+4. find the *mean and the standard deviation* of the sampling distribution of the $W$ under the
+null hypothesis for each test;
+5. find _the P-values_ for the Wilcoxon signed rank test for paired and the Wilcoxon rank sum test for two independent samples using the Normal approximation with the continuity correction;
+6. Use computer output to determine the results of the Wilcoxon signed
+rank test for paired data and the Wilcoxon rank sum test for two independent samples, for both _exact (psignrank OR pwilcox or wilcox.test (exact=TRUE)) and approximate methods (wilcox.test(exact=FALSE))_.
+
+Before you start, load the stored datasets provided for the exercises in this week below by running the following chunk (assuming the file  "Workshop2.Rdata" is saved in the same directory as the .Rmd  worksheet).
+
+```{r}
+print(load("Workshop2.Rdata"))
+```
+
+### Overview of Signed-rank Test: Paired data  
+
+The Wilcoxon signed-rank (or sometimes just sign-rank) test calculates the ranks of the absolute values of these differences. Under $H_0$, the sum of the ranks associated with the positive differences ($w_+$) should be roughly equal to the sum of the ranks of the negative differences ($w_-$). These sums of signed-ranks can be considered to be random variables, and they too have a distribution that depends on the sample size $n$. 
+
+In _R_, the probability mass function, the distribution function, and the quantile function are given by `dsignrank`, `psignrank`, and `qsignrank`, respectively.  
+
+Not surprisingly, there is an inbuilt function, `wilcox.test`, that allows us to perform the signed-rank test (and the 2-sample rank-sum test below) directly. The syntax is similar to that for `t.test`, so with the signed-rank test as the analogue of the single sample t-test, the funciton requires a single input vector, `x'.
+
+### Overview of Wilcoxon Rank Sum test
+
+To undertake a Wilcoxon rank sum test by explicitly doing the calculations we can work through the following steps. Suppose the two samples to be compared are Sample A and Sample B.   
+
+1. Rank the *combined* observations from the two sample, keeping track of which ranks are associated with observations from each dataset.   
+2. Calculate the sum of the ranks of observations from Sample A ($w_A$) and Sample B ($w_B$). Then, calculate the statistics $u_A$ and $u_B$ as $u_A = w_A - n_A(n_A + 1)/2$ and $u_B = w_B - n_B(n_B + 1)/2$, where $n_A$ and $n_B$ denote the respective sample sizes.    
+3. Calculate the probability, under the null hypothesis, of observing a value as small as, or smaller than, the value of $min(u_A,u_B)$ that we observed . This is done by using the distribution of the Wilcoxon rank-sum statistics, which is given in _R_ by the functions `d/p/q/rwilcox`. If the probability is small, we would reject $H_0$ in favour of $H_A$.
+
+The inbuilt _R_ function to do this test directly is again `wilcox.test`, but as it's a two sample comparison it requires two input vectors, `x` and `y`.
+
+
+**Question 1: Walpole et al. (2016) Ex 16.7** 
+
+The data in Ex16.07 give the systolic blood pressure of 16 joggers before and after an 8-kilometer run. You are to conduct a Wilcoxon signed-rank test at the 0.05 level of significance to test the null hypothesis that jogging 8 kilometers increases the median systolic blood pressure by 8 points against the alternative that the increase in the median is less than 8 points.
+
+a.  Familiarise yourself with the data by using the function `head` to view the first 6 rows, and `boxplot`. Interpret the boxplot.
+b. Is it appropriate to use a paired t-test in this scenario? Provide your arguments.
+c.  Use appropriate $R$ functions such as `sign` and  `rank` to calculate the test statistic for the signed-rank test.   
+d.  For a sample size of n, the signed-rank statistic can take values between 0 and n(n+1)/2. The distribution of the possible values for a sample of size 8 can be plotted with the following code. Uncomment it to run, and identify the p-value associated with your calculated test statistic.
+```{r}
+#nn<-8
+#plot(0:(nn*(nn+1)/2), dsignrank(0:(nn*(nn+1)/2), nn), type = "h", xlab = "w", ylab = "probability", main = paste0("Signed-rank distribution (n = ",nn,")"))
+```
+
+e.  Calculate the p-value using the function `psignrank`. This is an exact method.     
+f.  Use the function `wilcox.test` to check your result.This is an approximate method.
+g.  Summarise the results using the 6 steps hypothesis testing.
+
+
+**Question 2: Walpole et al. (2016) Ex 16.10.**  
+
+The weights of 5 people before they stopped smoking and 5 weeks after they stopped smoking, in kilograms, are given in Ex16.10.  Use the signed-rank test for paired observations to test the hypothesis, at the 0.05 level of significance, that giving up smoking has no effect on a person's weight against the alternative that one's weight increases if he or she quits smoking. 
+
+Summarise the results using the 6 steps hypothesis testing.
+
+
+**Question 3: Walpole et al. (2016) Ex 16.15.** 
+
+A cigarette manufacturer claims that the tar content of brand B cigarettes is lower than that of brand A. To test this claim, the following determinations of tar content, in milligrams, were recorded:     
+Brand A: 11,12,9,13,11,14     
+Brand B: 8,10,7 
+
+Use the rank-sum test with $\alpha = 0.05$ to test whether the claim is valid. 
+
+Summarise the results using the 6 steps hypothesis testing.
+
+
+**Question 4**
+
+The object `Battery` contains the operating life (in hours) of batteries from two different brands of replacement mobile phone batteries. The operating life was defined as the time the level of a battery reached 10% after continuous use of the phone. Test the hypothesis that Brand A yields higher operating times than Brand B.
+
+a. Is this a paired comparison or not?
+
+b. Plot the data in a useful way and comment.
+
+c. Carry out a $t$-test using `t.test`. Summarise the results using the 6 step hypothesis testing.
+
+d. Carry out a rank-sum test using _R_ and state your conclusions: extract the operating life data for each battery, and then combine then using the function `c()`. Once you have done so, you can then rank them easily and calculate the rank-sums using `R`.
+
+e. Check that you have done the calculations correctly by using the function `wilcox.test`. 
+
+f. Identify the p-value on the following plot. (Uncomment to run.)
+
+g. Summarise the results for nonparametric using the 6 steps hypothesis testing.
+
+
+```{r}
+#U <- 0:(9*9)
+#Udensity <- dwilcox(U, 9, 9)
+#plot(U, Udensity, xlab = "U", ylab = "probability", main = "distribution of Wilcoxon rank-sum statistic", type = "h")
+```
+
+
+**Question 5: Walpole et al. (2016) Ex 16.18.** 
+
+A fishing line is being manufactured by two processes. To determine if there is a difference in the mean breaking strength of the lines, 10 pieces by each process are selected and then tested for breaking strength. The results are given in the dataset Ex16.18. 
+
+Use the rank-sum test with $\alpha = 0.1$ to determine if there is a difference between the mean breaking strengths of the lines manufactured by the two processes. 
+
+Summarise the results using the 6 steps hypothesis testing.
+    
