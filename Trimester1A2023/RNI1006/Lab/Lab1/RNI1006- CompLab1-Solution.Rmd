@@ -1,0 +1,561 @@
+---
+title: 'RNI1006 Regression and Nonparametric Inference'
+author: 'Computer Lab 1 Solution (Week 1)'
+output:
+  word_document:
+   # reference_docx: WorkshopTemplate01.docx  
+  html_notebook:
+    theme: flatly
+  html_document:
+    highlight: haddock
+    theme: flatly
+  pdf_document: default
+---
+
+## Learning Check
+
+When you complete this session, you will be able to:
+
+1. revise *one sample t-test*;
+2. find the *rank transformation* for a set of data;
+3. state *the null and alternative hypotheses* that are used for the analysis of
+data using *the Wilcoxon signed rank test for one sample*;
+4. find *the mean and the standard deviation* of the sampling distribution of the Wilcoxon signed rank test statistic $W$ under the
+null hypothesis;
+5. find *the P-value* for the Wilcoxon signed rank test using the Normal
+approximation with the continuity correction;
+6. use computer output to determine the results of *the Wilcoxon signed rank test for one sample*, for both the exact and approximate methods.
+
+
+In this unit, we will be  using _R_ to carry out statistical analyses via the interface _RStudio_. As you work through the unit you should be building on the familiarity with basic _R_ syntax and data manipulation that you gained in the prerequisite course STAT1002. 
+
+While you may be used to typing commands directly into the interactive _R_ console, at the ">" prompt, here you will be introduced to _R_ script (.R) and _R_ Markdown (.Rmd) files, where series of commands are kept together for computations and analyses to be carried out in the current session or saved for later use. Code saved in these files can be run from within _RStudio_ using short cut keys. 
+
+Computer laboratories exercises and solutions will be prepared as .Rmd (ie markdown) files. While you could type the same commands into the console, or save your code in a single script file (___ .R) each week, hopefully with a bit of practice in the labs and at home you see the advantages of working in the Markdown environment. The following brief instructions are taken from the 'Intro to R' doc that has been uploaded to the _R_ Resources folder in the Unit Materials on Blackboard.   
+
+*Starting a new R Markdown file (R Notebook mode)*
+We’ll be using a special mode known as an R notebook, which is an interactive version of an R Markdown file. In most instances, you will be starting with a pre-existing file containing computer labs questions, but you can create a new notebook in RStudio with the menu command File -> New File -> R Notebook.
+Once the file is open, you can start typing text below the header
+
+*_Inserting R code in ‘chunks’_*
+Notebook chunks can be inserted quickly using the keyboard shortcut Ctrl+Alt+I, or via the Add Chunk command in the editor toolbar. Once you have a blank chunk, you can type one or several R commands, and then execute them by clicking on the green triangle (Run Chunk), or via the keyboard shortcut Ctrl+Shift+Enter. The output will appear below the command. R code that produces a figure is entered and executed in exactly the same way. 
+
+
+## WEEK 1 OVERVIEW
+
+In Week 1, we have covered the single-sample t-test (as a revision) and the Wilcoxon signed rank test for one sample. You are expected to be familiar with implementation and interpretation of these tests using both explicit computation of the test statistics, as well as application of appropriate inbuilt _R_ test functions.   
+
+1.  You should be thoroughly familiar with input and ouput of the test functions `t.test`
+2.  You should become conversant with use of basic summary, computational and plotting commands. Applicable ones for this workshop include `boxplot`,  `plot`,  `summary`, `sort`, `sum`,  `sign` (applicable for numeric vectors), and `table` (which counts unique values of a vector). 
+3. You will be introduced with the function `wilcox.test`
+
+Don't forget to check the `help` for any function that you are not familiar with by typing either '?function_name' or 'help(function_name)'. For the test procedures especially, it is important to understand the arguments of the function. 
+
+Relevant practice exercises for this topic are found in Blackboard under Practice Test 1. It would be helpful to have attempted these exercises before coming to the lab.
+
+### Recap of Wilcoxon Signed-rank Test: One sample  
+
+1. Draw an simple random sample (SRS) of size $n$ from a population, say $X_1, X_2, ..., X_n.$ 
+2. Suppose we test  $H_0: θ=θ_0.$
+3. Calculate $X_i’ = X_i - θ_0, i=1,2,..., n.$
+4. Remove the zero differences, if any.
+5. Rank the absolute values of these differences $|X_i’|$ in step 4.
+6. The sum $W^+$ of the ranks for the positive differences is the Wilcoxon signed rank statistic. 
+7. _Approximate method._ When there are ties, calculate the P-value for the Wilcoxon signed rank statistic using the Normal approximation with the continuity correction. If the distribution of the responses is not affected by the different treatments within pairs, then $W^+$ has mean:
+$$\mu_{W^+} =\frac{n(n+1)}{4}$$
+and standard deviation:
+$$ \sigma_{W^+} = \sqrt{\frac{n(n+1)(2n+1)}{24}}$$
+
+8. _Exact method._ When there are no zero differences and no ties, R provides the exact calculation of the p-value using either _psignrank_ or _wilcox.test_ using the argument `Exact=True`
+9. The Wilcoxon signed rank test rejects the hypothesis that there are no systematic differences between $Z_i’$ when the rank sum W+ is far from its mean.
+
+The function `wilcox.test` calculates an exact p-value *if the samples contain less than 50 finite values and there are no ties.* Otherwise, a normal approximation is used.
+
+### Using the Normal approximation with the continuity correction 
+
+The distribution of the signed rank statistic $W^+$ when the null hypothesis of no difference is true becomes approximately Normal as the sample size becomes large.  
+
+We can then use Normal probability calculations (with the continuity correction) to obtain approximate P-values for $W^+:$
+
+$$ z=\frac{(W^+ - \mu_{W^+})}{\sigma_{W^+}}$$
+
+
+**Question 1: Adapted from Walpole 16.1** 
+
+The following data represent the time, in minutes, that a patient has to wait during 12 visits to a doctor's office before being seen by the doctor:
+
+17, 15, 20, 20, 32, 28, 12, 26, 25, 25, 35, 24
+
+a.  You are to use a t-test to evalaute whether or not it would be reasonable for the doctor to claim that patients do not, on average, have to wait more than 20 minutes before being admitted to the examination room.  
+
+
+```{r}
+wait.times<-c(17, 15, 20, 20, 32, 28, 12, 26, 25, 25, 35, 24)
+sort(wait.times) # easier to check the sample median by eye if sorted
+```
+   
+    +  Examine a boxplot of these data and comment on the suitability of a t-test for assessing this claim.  
+    
+```{r}
+boxplot(wait.times,ylab="Waiting time")
+```
+
+From the boxplot it can be seen that the data is reasonably symmetric centered around the mean or median 25, confirming the normality assumption, so that a one-sample t-test would be appropriate for assessing the doctor's claim. The `summary` function is also useful for obtaining summary values for a dataset:  
+
+```{r}
+summary(wait.times)
+```
+
+
+    +  Use the _R_ function 't.test', with appropriate input arguments, to implement the test. 
+    
+```{r}
+t.test(wait.times,mu=20,alternative="greater")
+```
+
+OR, equivalently, subtract the hypothesized mean and use the default argument "mu=0":
+
+```{r}
+t.test(wait.times-20,alternative="greater")
+```
+
+
+    +  Conduct the 6 steps hypothesis testing as explained in the lecture based on the R output.  
+
+Suppose that $\mu$ is the population mean waiting time of patients before being admitted to the examination room.
+
+Step 1: $H_0: \mu=20$   $H_1: \mu > 20$
+
+Step 2: Test statistic is $t=1.6595$
+
+Step 3. The sampling distribution of the test statistic is $t$ with $df=(n-1)=12-1=11.$
+
+Step 4: The corresponding p-value is 0.0626. (Make sure you can draw this on paper, and understand what it means.) 
+
+Step 5. Decision. As p=0.06 is greater than 0.05, then we do not reject $H_0$
+
+Step 6. Conclusion. We would conclude that at the 5% significance level there is insufficient evidence to claim waiting times tend to exceed 20 minutes.   
+
+We can confirm the output `t.test` information with the same calculations as you would do by hand:
+
+```{r}
+nn<-length(wait.times) ## sample size n
+calc.tval<-mean(wait.times-20)/(sd(wait.times-20)/sqrt(nn)) ## test stat, step 2
+calc.tval
+```
+```{r}
+# calculated p-value for the test statistic, step 4
+pt(calc.tval,df=nn-1,lower.tail=F)
+```
+
+b.  Perform a Wilcoxon Signed-Rank test *manually* to assess the doctor's claim.
+
+    + Calculate $X_i’ = X_i - 20, i=1,2,..., n.$
+  
+```{r}
+# Calculate the differences
+tdiff<-wait.times-20
+tdiff
+```    
+    + Rank the absolute values of these differences $|X_i’|.$
+    
+```{r}    
+# assigning the ranks to a named vector means we can use them in calculations:
+tdiff<-tdiff[tdiff!=0] ## removing the zeros, n=12 becomes n=10
+tdiff ## the sample size from n=12. to n=10
+abs.tdiff<-  abs(tdiff) ## $|X_i’|.$
+abs.tdiff
+rank(abs.tdiff)  ## rank of $|X_i’|.$
+# The 'table' function is very useful for counting the +ves/-ves/same
+# table(abs.tdiff)
+```    
+
+    + Calculate $W^+$ 
+
+Based on the results, we sum the ranks of positive differences (excluding ties) such that $W^+ =9+7.5+6+4+4+10+2=42.5.$ 
+    
+    + Find the P-value for the Wilcoxon signed rank statistic using the Normal approximation with the continuity correction (manually).
+    
+Given the $H_1$ in this context (one-sided, the observed $w^+$ is greater than the mean $\mu_W=27.5$), the exact P-value is
+
+$P(W^+ \ge 42.5).$
+
+Now, we detail the Normal approximation with continuity correction, by doing the continuity and then Normal approximation:
+$$P(W^+ \ge 42.5) \approx P(W^+ > (42.5-0.5)) \approx P(Z > (42-\mu_W)/\sigma_W)$$
+
+```{r}
+# First calculate mean and SD
+n=10 # originally n=12, but we exclude two ties, then n=10
+W=42.5
+muW <-n*(n+1)/4  # mu_W+
+muW
+sdW <-sqrt(n*(n+1)*(2*n+1)/24) ## sigma_W+
+sdW
+zW <- ((W-0.5) - muW)/sdW  #continuity correction
+zW   # the test statistic
+pvalue=1-pnorm(zW) # why is the p-value defined this way? Look at the H1 (the alternative hypothesis)
+pvalue
+```       
+
+Note that, as in this case we have zero differences and ties, then R uses the *approximate method* through 'wilcox.test(...., exact=FALSE)'
+
+    + State the formal null and alternative hypotheses appropriate for this test. How does this compare with that appropriate for the t-test above?  
+    
+The Wilcoxon signed rank test focuses on statements about the median of waiting times, $\eta$:
+$$H_0: \eta=20$$
+$$H_A: \eta>20$$
+compared with $H_0: \mu=20$ and $H_0: \mu>20$, where $\mu$ is the mean times, for the t-test.
+
+c. Note that, as in this case we have zero differences and ties, then R uses the approximate method through 'wilcox.test'
+
+The following is the result using R.You need to set `exact=FALSE` for an approximation.
+
+```{r}
+wilcox.test(x=wait.times, y=NULL, alternative="greater", mu=20, exact=FALSE)
+```
+
+Suppose that $\eta$ is the population median waiting time of patients before being admitted to the examination room.
+
+Step 1: $H_0: \eta=20$   $H_1: \eta > 20$
+
+Step 2: Test statistic is $W+ = 42.5$
+
+Step 3. The sampling distribution of the test statistic is approximately Normal distribution (with continuity correction).
+
+Step 4: The corresponding p-value is 0.06906. (Make sure you can draw this on paper, and understand what it means.) 
+
+Step 5. Decision. As p=0.07 is greater than 0.05, then we do not reject $H_0$
+
+Step 6. Conclusion. We would conclude that at the 5% significance level there is insufficient evidence to claim the median waiting times tend to exceed 20 minutes.   
+
+
+**Question 2: Adapted from Moore et al (2017) Ex 15.35. Radon detectors**
+
+How accurate are radon detectors of a type sold to homeowners? To answer this question, university researchers placed 12 detectors in a chamber that exposed them to 105 picocuries per liter (pCi/l) of
+radon. The detector readings are as follows
+
+91.9  97.8 111.4  122.3  105.4  95.0  103.8  99.6  96.6  119.3  104.8  101.7
+
+We wonder if the median reading differs significantly
+from the true value 105.
+
+
+a. Use a t-test to evaluate whether the mean reading differs significantly
+from the true value 105.
+
+```{r}
+readings<-c(91.9,97.8, 111.4,  122.3,  105.4,  95.0,  103.8,  99.6,  96.6,  119.3,  104.8,  101.7)
+sort(readings) # easier to check the sample median by eye if sorted
+```
+
+b. Graph the data, and comment on skewness and
+outliers. Comment whether a nonparametric test is appropriate.
+
+```{r}
+boxplot(readings,ylab="Detector readings")
+```
+
+The boxplot is skewed to the right, as the upper whisker is longer than the lower whisker. This means that the mean is greater than the median.
+
+```{r}
+summary(readings)
+```
+
+In this context, t-test would not be appropriate, as $n$ is small and the distribution is skewed to the right.
+
+c. We would like to test hypotheses about the median $\eta$ reading from home radon detectors:
+
+$$H_0: \eta=105  \ \ \  \ \ \  H_a: \eta \not=105 $$
+
+Apply the Wilcoxon signed rank statistic *manually* to the differences between the observations and 105.
+
+    + Calculate $Z_i’ = Z_i - 105, i=1,2,..., n.$
+  
+```{r}
+# Calculate the differences
+rdiff<-readings-105
+rdiff
+```    
+    + Rank the absolute values of these differences $|Z_i’|.$
+    
+```{r}    
+# assigning the ranks to a named vector means we can use them in calculations:
+rdiff
+rdiff<-rdiff[rdiff!=0] ## no ties
+abs.rdiff<-  abs(rdiff)
+abs.rdiff
+abs.rdiff.rank=rank(abs.rdiff)
+abs.rdiff.rank
+# The 'table' function is very useful for counting the +ves/-ves/same
+# table(abs.tdiff)
+```    
+
+    + Calculate $W^+$ 
+
+The following codes separate positive ranks and negative ranks.
+
+```{r}
+pos.ranks<-abs.rdiff.rank[rdiff>0]
+pos.ranks
+w.pos<-sum(pos.ranks)
+w.pos
+n.pos<-length(pos.ranks)
+n.pos
+neg.ranks<-abs.rdiff.rank[rdiff<0]
+neg.ranks
+w.neg<-sum(neg.ranks)
+w.neg
+n.neg<-length(neg.ranks)
+n.neg
+```
+
+Tabulate the statistics:
+
+```{r}
+test.stat<-c(w.neg=w.neg,w.pos=w.pos)
+print("Calculated test statistics")
+test.stat
+```
+
+Based on the results, as this is a two-sided, $W=min(W^-, W^+)$ such that $W=31.$
+    
+    + Find the P-value for the Wilcoxon signed rank statistic.
+
+In this case, the p-value is $2P(W+ \le 31)$:
+
+```{r}
+pval=2*psignrank(31,12)
+pval
+```
+
+As this scenario does not have zero differences and ties, we can calculate the p-value using the exact method through `psignrank` or `wilcox.test` (see below). We do not need an approximation unless we can only calculate it manually (eg no access to R).
+
+## Using psignrank (from ?psignrank)
+
+Let x be a sample of size n from a continuous distribution symmetric about the origin.  Then the Wilcoxon signed rank statistic is the sum of the ranks of the absolute values x[i] for which x[i] is 
+positive. This statistic takes values between 0 and n(n+1)/2, and its mean and variance are n(n+1)/4 and 
+n(n+1)(2n+1)/24, respectively.
+
+For a sample size of $n=12$, the signed-rank statistic can take values between 0 and n(n+1)/2=78. We can plot the distribution of the possible values for a sample of size 12 using `dsignrank`. We can identify the p-value associated with the derived test statistic, and calculate its value using `psignrank`.
+
+```{r}
+nn<-n.pos+n.neg
+n.min<-min(c(w.neg,w.pos))
+plot(0:(nn*(nn+1)/2), dsignrank(0:(nn*(nn+1)/2), nn),lwd=2, type = "h", xlab = "w", ylab = "probability", main = paste0("Signed-rank distribution (n = ",nn,")"))
+lines(0:n.min, dsignrank(0:31, nn),lwd=2, type = "h",col="red")
+lines(47:78, dsignrank(47:78, nn),lwd=2, type = "h",col="red")
+```
+
+In the case IF we have no access to R to calculate the p-value using the exact method, one uses the approximation as explained in the lecture slides where:
+
+$$ \mu_W= 12(13)/4=39 , \sigma_W= 12.74755$$
+
+such that
+
+p-value $= 2P(W+ \le 31) \approx 2P(W+ \le ((31+0.5)-\mu_W)/\sigma_W)=0.5563$
+
+This is confirmed by using the approximation in wilcox.test
+
+```{r}
+wilcox.test(x=readings, y=NULL, alternative="two.sided", mu=105, exact=FALSE)
+```
+
+d. Repeat part (c) using R for an exact method.
+
+As we have no zeros and ties, we can calculate the exact probability using R:
+
+```{r}
+wilcox.test(x=readings, y=NULL, alternative="two.sided", mu=105, exact=TRUE)
+```
+
+We can observe that the results exact p-value are the same using both `psignrank` and  `wilcox.test.`
+
+Suppose that $\eta$ is the population median reading of radon detectors.
+
+Step 1: $H_0: \eta=105$   $H_1: \eta \not= 105$
+
+Step 2: Test statistic is $W+ = 31$
+
+Step 3. The sampling distribution of the test statistic $W$ is a complex discrete probability mass function.
+
+Step 4: The corresponding p-value is 0.5693. (Make sure you can draw this on paper, and understand what it means.) 
+
+Step 5. Decision. As p=0.57 is greater than 0.05, then we do not reject $H_0$
+
+Step 6. Conclusion. We would conclude that at the 5% significance level there is insufficient evidence to claim that the median reading differs from 105.
+
+**Question 3: Walpole 16.2.**   
+
+The following data represent the number of hours of flight training received by 18 student pilots from a certain instructor prior to their first solo flight: 
+
+9, 12, 18, 14, 12, 14, 12, 10, 16, 11, 9, 11, 13, 11, 13, 15, 13, 14 
+
+a. Perform a  Wilcoxon Signed-Rank test at the 0.05 level of significance to test the instructor's claim that the median time required before his students' solo is 12 hours of flight training. 
+
+```{r}
+hours.training<-c(9, 12, 18, 14, 12, 14, 12, 10, 16, 11, 9, 11, 13, 11, 13, 15, 13, 14 )
+summary(hours.training)
+```
+```{r}
+wilcox.test(x=hours.training, y=NULL, alternative="two.sided", mu=12, exact=FALSE)
+```
+We have in this context:
+
+1. The null hypothesis: $H_0: \eta = 12$ against the alternative: $H_1: \eta \not= 12$ which is a two-sided test. 
+
+2. The test statistic is $W^+=77$ 
+
+3. The sampling distribution of the test statistic is approximately Normal distribution (with continuity correction).
+
+4. The p-value of 0.3439 (approximate, with continuity correction). 
+
+5. As this p-value is greater than the significance level 0.05, then we do not reject Ho. 
+
+6. In conclusion, we do not have enough evidence against the instructor's claim that the median time required before his students' solo is 12 hours of flight training. Therefore there is no evidence to suggest the median training time is anything different than 12 flight hours.
+
+
+b. Use a t-test for comparison.
+
+```{r}
+t.test(hours.training,mu=12,alternative="two.sided")
+```
+
+We have in this context, the 6-steps hypothesis testing as follows:
+
+1. The null hypothesis: $H_0: \mu= 12$ against the alternative: $H_1: \mu \not= 12$ which is a two-sided test. 
+
+2. The test statistic is $t=1.101$ 
+
+3. The sampling distribution is $t$ with df=18-1=17.
+
+4. The p-value of 0.2863. 
+
+5. As this p-value is greater than the significance level 0.05, then we do not reject Ho. 
+
+6. In conclusion, we do not have enough evidence against the instructor's claim that the mean time required before his students' solo is 12 hours of flight training. Therefore there is no evidence to suggest the mean training time is anything different than 12 flight hours.
+
+
+**Question 4: Moore et al (2017)**   
+
+You are interested in determining if the average amount of time (in hours) that students spend on the Internet per day is greater than 2 hours. The data below are from a random sample of 11 students.
+
+2.5,	100,	0.5,	1,	1.5,	3,	3.5,	4,	3,	4,	2.5
+
+a. Explore the data. What did you notice from your preliminary analysis of the data?
+
+```{r}
+internet.hours<-c(2.5,	100,	0.5,	1,	1.5,	3,	3.5,	4,	3,	4,	2.5)
+sort(internet.hours) # easier to check the sample median by eye if sorted
+```
+
+```{r}
+boxplot(internet.hours,ylab="Internet hours")
+hist(internet.hours)
+```
+
+There is one outlier.
+
+b. Suppose you were to remove the second observation (value = 100), would a t procedure be appropriate for these data? If it is, use a t-test to evaluate whether students spend on the Internet per day is greater than 2 hours.
+
+```{r}
+internet.hours.n<-c(2.5,	0.5,	1,	1.5,	3,	3.5,	4,	3,	4,	2.5)
+sort(internet.hours.n) # easier to check the sample median by eye if sorted
+```
+
+```{r}
+boxplot(internet.hours.n,ylab="Internet hours")
+```
+
+The boxplot is slightly skewed to the left. Assuming t-test can be done.
+
+```{r}
+t.test(internet.hours.n,mu=2,alternative="greater")
+```
+
+
+c. Suppose you were to remove the second observation (value = 100). Apply the Wilcoxon signed rank statistic using R to 
+the differences between the observations and 2 to evaluate whether students spend on the Internet per day is greater than 2 hours.
+
+```{r}
+# Calculate the differences
+xdiff<-internet.hours.n- 2
+xdiff
+```    
+    + Rank the absolute values of these differences $|X_i’|.$
+    
+```{r}    
+# assigning the ranks to a named vector means we can use them in calculations:
+xdiff
+xdiff<-xdiff[xdiff!=0]
+abs.xdiff<-  abs(xdiff)
+abs.xdiff
+abs.xdiff.rank=rank(abs.xdiff)
+abs.xdiff.rank
+# The 'table' function is very useful for counting the +ves/-ves/same
+# table(abs.tdiff)
+```    
+
+    + Calculate $W^+$ 
+
+
+```{r}
+
+internet.hours<-c(2.5,    0.5,    1,    1.5,    3,    3.5,    4,    3,    4,    2.5)   ## read the data
+# Calculate the differences
+xdiff<-internet.hours- 2
+
+# assigning the ranks to a named vector means we can use them in calculations:
+xdiff
+xdiff<-xdiff[xdiff!=0] ## to ensure zero differences being removed before ranking
+abs.xdiff<-  abs(xdiff)  ## absolute value of the differences
+abs.xdiff
+abs.xdiff.rank=rank(abs.xdiff) ## rank the abs diff
+abs.xdiff.rank
+
+##
+
+pos.ranks<-abs.xdiff.rank[xdiff>0]
+pos.ranks
+```  
+
+
+```{r}
+pos.ranks<-abs.xdiff.rank[xdiff>0]
+pos.ranks
+w.pos<-sum(pos.ranks)
+w.pos
+n.pos<-length(pos.ranks)
+n.pos
+neg.ranks<-abs.xdiff.rank[xdiff<0]
+neg.ranks
+w.neg<-sum(neg.ranks)
+w.neg
+n.neg<-length(neg.ranks)
+n.neg
+```
+
+Tabulate the statistics:
+
+```{r}
+test.stat<-c(w.neg=w.neg,w.pos=w.pos)
+print("Calculated test statistics")
+test.stat
+```
+```{r}
+wilcox.test(x=internet.hours.n, y=NULL, alternative="greater", mu=2, exact=FALSE)
+```
+
+We have the following steps in this context:
+
+1. The null hypothesis: $H_0: \eta=2$ against the alternative: $H_A \eta > 2$ which is a one-sided test. 
+
+2. The test statistic is $W^+=40.5$ 
+
+3. The sampling distribution of the test statistic is approximately Normal distribution (with continuity correction).
+
+4. The p-value of 0.09984 (approximate, with continuity correction). 
+
+5. As this p-value is greater than the significance level 0.05, then we do not reject Ho. 
+
+6. In conclusion, we do not have enough evidence to conclude that the median time (in hours) that students spend on the Internet per day is greater than 2 hours. 
+
