@@ -1,0 +1,19 @@
+1. 
+(a)
+Input a number, print Out of range if number is not between 0 to 10, print correct if it is 5, print wrong for others
+(b)
+Input a number, print from 0 to that number - 1
+(c)
+input 2 numbers, print the result of square of first number minus square of second number
+
+2.
+(a)
+no forward declarations
+(b)
+declare 2, 3, 4, 5
+(c)
+no forward declarations
+(d)
+declare 2, 3, 4
+(e)
+declare 5
