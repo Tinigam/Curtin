@@ -13,7 +13,17 @@ def recursiveFactorial(x):#Max: 996; Used 0 second
     else:
         return x * recursiveFactorial(x - 1)
     
-def fibonacci(x):# Needs more than 30s in 42 round
+def fibonacci(x):#Max: 20577; Used 0 second
+    first = 0
+    second = 1
+    result = 1
+    for i in range(x - 2):
+        first = second
+        second = result
+        result = first + second
+    return result
+    
+def recursiveFibonacci(x):# Needs more than 30s in 42 round
     if x == 0:
         return 0
     elif x == 1:
@@ -21,7 +31,7 @@ def fibonacci(x):# Needs more than 30s in 42 round
     # elif x == 2:
     #     return 1
     else:
-        return fibonacci(x - 1) + fibonacci(x - 2) 
+        return recursiveFibonacci(x - 1) + recursiveFibonacci(x - 2) 
 
 def unitest(x):
     start_time = time.time()
@@ -34,7 +44,11 @@ def unitest(x):
     # print(f"Used {round(time.time() - start_time, 2)} second")
     # start_time = time.time()
 
-    print(f"Fibonacci function:\n{fibonacci(x)}")
+    # print(f"Fibonacci function:\n{fibonacci(x)}")
+    # print(f"Used {round(time.time() - start_time, 2)} second")
+    # start_time = time.time()
+
+    print(f"Recursive Fibonacci function:\n{recursiveFibonacci(x)}")
     print(f"Used {round(time.time() - start_time, 2)} second")
     start_time = time.time()
 
@@ -43,4 +57,4 @@ def test(x):
         print(f"\nRound {i}:\n")
         unitest(i)
 
-test(10000)
+test(1000000)
