@@ -6,11 +6,15 @@
 
 def bubbleSort(A):
     for i in range(len(A)):
+        Swap = False
         for j in range(i + 1, len(A)):
             if A[i] > A[j]:
-                temp = A[i]
+                temp =  A[i]
                 A[i] = A[j]
                 A[j] = temp
+                Swap = True
+        if Swap == False:
+            break
     return A
 
 def insertionSort(A):
