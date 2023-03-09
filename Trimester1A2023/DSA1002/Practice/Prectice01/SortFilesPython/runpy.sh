@@ -32,11 +32,11 @@
 #
 #sorts="br sr qr mr bn sn qn mn ba sa qa ma"
 #sorts="ba br bn bd"
-sorts="br"
+sorts="br ir sr bn sn in"
 
 # The "max" variable contains the maximum n that is passed to SortsTestHarness
 #max=8192
-max=1024
+max=10000
 
 
 ########################### DO NOT CHANGE BELOW THIS LINE ##################
@@ -66,6 +66,6 @@ echo ""
 
 for s in $sorts 
 do
-    grep "$s" $tempFile
+    grep "$s" $tempFile >> test.csv
     echo "e"
 done
