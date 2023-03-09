@@ -1,0 +1,11 @@
+The results show that Bubble Sort has the worst time complexity among the three sorting algorithms, with a worst-case time complexity of O(n^2). 
+Bubble Sort repeatedly swaps adjacent elements until the list is sorted, which makes it inefficient for large datasets. 
+
+Insertion Sort, on the other hand, has a worst-case time complexity of O(n^2) as well but is more efficient than Bubble Sort due to its adaptive nature. 
+Insertion Sort places an unsorted element in its correct position in the sorted list, which reduces the number of comparisons and swaps required.
+
+Selection Sort has a worst-case time complexity of O(n^2) but performs better than Bubble Sort due to its fewer data movements. 
+Selection Sort repeatedly selects the minimum element from the unsorted part of the list and swaps it with the first unsorted element, resulting in fewer swaps. 
+
+Overall, the results align with the theoretical complexities and characteristics of these sorting algorithms. 
+However, it's essential to consider other factors, such as memory usage and stability, when choosing a sorting algorithm for a particular task.
