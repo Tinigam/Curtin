@@ -5,13 +5,11 @@
 #
 
 def bubbleSort(A):
+    Swap = False
     for i in range(len(A)):
-        Swap = False
-        for j in range(i + 1, len(A)):
-            if A[i] > A[j]:
-                temp =  A[i]
-                A[i] = A[j]
-                A[j] = temp
+        for j in range(0, len(A) - i - 1):
+            if A[j] > A[j + 1]:
+                A[j], A[j + 1] = A[j + 1], A[j]
                 Swap = True
         if Swap == False:
             break
