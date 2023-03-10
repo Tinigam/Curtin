@@ -1,0 +1,6 @@
+1. Preprocessor Directives
+(a) import marvellous from standard lib
+(b) import marvellous from current folder
+(c) define constant value length 100
+(d) predefined function cube(x) which is x * x * x
+(e) predefined function calc(x,y,z) which is x + cube(y) + cube(cube(z))
