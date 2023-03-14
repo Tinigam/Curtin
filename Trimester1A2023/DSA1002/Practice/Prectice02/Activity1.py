@@ -57,4 +57,5 @@ def test(x):
         print(f"\nRound {i}:\n")
         unitest(i)
 
-test(1000000)
+if __name__ == "__main__":
+    test(1000000)
