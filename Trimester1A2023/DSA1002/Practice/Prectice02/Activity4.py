@@ -68,8 +68,7 @@ def decConvertCal():
         DecConvertor(inVal, targetVal)
     except ValueError:
         print("Please try again!")
-        gcdCal()
+        decConvertCal()
     except RecursionError:
         print("Please try again!")
-        gcdCal()
-
+        decConvertCal()
