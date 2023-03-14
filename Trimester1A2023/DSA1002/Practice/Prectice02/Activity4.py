@@ -44,7 +44,7 @@ def decConvertCal():
     try:
         inVal = int(inVal)
         targetVal = int(targetVal)
-        Activity3.DecConvertor(inVal, targetVal)
+        print(f"The decimal number {inVal} convert to base {targetVal} is {Activity3.DecConvertor(inVal, targetVal)}")
     except ValueError:
         print("Please try again!")
         decConvertCal()
